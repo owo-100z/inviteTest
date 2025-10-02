@@ -3,19 +3,19 @@
   "private": true,
   "version": "0.0.1",
   "type": "module",
-  "homepage": "https://owo-100z.github.io/inviteTest/",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.13",
     "dayjs": "^1.11.18",
     "gh-pages": "^6.3.0",
+    "holiday-kr": "^0.1.5",
     "khoshnus": "^3.0.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",

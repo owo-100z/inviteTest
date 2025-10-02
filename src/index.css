@@ -43,6 +43,7 @@
 html {
   overflow-y: scroll;
   scrollbar-gutter: stable;
+  scrollbar-width: none;
 }
 
 body {
@@ -50,12 +51,28 @@ body {
     font-family: 'Paperozi', sans-serif;
 }
 
-.en-name-font {
-    font-family: 'Cafe24LovingU'
-}
-
 .menu-font {
     font-family: 'OngleipKonkon';
+}
+
+.font-ongle {
+    font-family: 'OngleipKonkon';
+}
+
+.font-snow {
+    font-family: 'PerpetualSnow';
+}
+
+.font-omu {
+    font-family: 'OmuDaye';
+}
+
+.font-loving {
+    font-family: 'Cafe24LovingU';
+}
+
+.countdown-mod span::before {
+  content: attr(--value);
 }
 
 @plugin "daisyui" {

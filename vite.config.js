@@ -20,5 +20,6 @@ export default defineConfig({
       '@common': path.resolve(__dirname, 'src/common/js/common.js'),
       '@': path.resolve(__dirname, 'src'),
     }
-  }
+  },
+  base: '/inviteTest/',
 })

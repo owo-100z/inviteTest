@@ -3,8 +3,13 @@ import { Manuscript } from "khoshnus"
 import 'khoshnus/style.css'
 import React, { useState, useEffect } from 'react';
 
-export default function Calligraphy({ id = "test", str = "sample", color = "#d1177dff", font = "Parisienne", fontSize = 15, speed = 150, delay = 0, className = "" }) {
+export default function Calligraphy({ id = "test", str = "sample", color = "#d1177dff", font = "Parisienne", fontSize = 15, speed = 150, delay = 0, className = "", width = 100, height = 30 }) {
     useEffect(() => {
+        if (!document.querySelector("style")) {
+            const style = document.createElement("style");
+            document.head.appendChild(style);
+        }
+
         const manuscript = new Manuscript({
             svgId: id,
             font: FONT_MATRIX[font].name,
@@ -26,6 +31,6 @@ export default function Calligraphy({ id = "test", str = "sample", color = "#d11
     }, [id, str, color, font, fontSize, speed, delay]);
 
     return (
-        <svg className={`${className}`} id={id} width="100%" viewBox="0 0 100 30" xmlns="http://www.w3.org/2000/svg"></svg>
+        <svg className={`${className}`} id={id} width="100%" viewBox={`0 0 ${width} ${height}`} xmlns="http://www.w3.org/2000/svg"></svg>
     )
 }

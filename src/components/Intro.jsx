@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Calligraphy from "@/components/Calligraphy";
 
-const str = ["We are getting","married"];
+const str = ["We are getting","married!"];
 // const str = ["Welcome to","our wedding"];
 // const str = ["Celebrate","with us"];
 
@@ -26,6 +26,7 @@ export default function Intro() {
                     fontSize={15}
                     className='rounded-3xl'
                     speed={s.length > 12 ? 100 : 150}
+                    height={20}
                     delay={1500 * i}
                 />
             ))}

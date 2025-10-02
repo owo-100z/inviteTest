@@ -5,7 +5,7 @@ import Test from "@/views/Test";
 export default function AppRouter() {
   return (
     <Routes>
-      <Route path="/test" element={<Test />} />
+      <Route path="/inviteTest/test" element={<Test />} />
       <Route path="*" element={<Invite />} />
     </Routes>
   )

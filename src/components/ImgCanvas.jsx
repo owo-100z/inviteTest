@@ -1,8 +1,8 @@
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 
 const petalBaseUrl = "https://my.toourguest.com/images/cards/particles";
 
-export default function IntroWithPetals({ imgUrl, isEffect = true, type = 'sakura' }) {
+export default function IntroWithPetals({ imgUrl, isEffect = true, type = 'sakura', rounded = false, className = "" }) {
   const canvasRef = useRef(null);
 
   useEffect(() => {
@@ -135,7 +135,7 @@ export default function IntroWithPetals({ imgUrl, isEffect = true, type = 'sakur
       <img
         src={imgUrl}
         alt="Background"
-        className="object-cover w-full h-full rounded-xl filter brightness-100"
+        className={`object-cover w-full h-full filter brightness-100 ${rounded ? 'rounded-xl' : ''} ${className}`}
       />
 
       {/* 캔버스 (꽃잎 효과) */}

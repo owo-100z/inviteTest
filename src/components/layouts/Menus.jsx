@@ -66,7 +66,7 @@ export default function MenuOverlay({ close = () => {} }) {
         <button
             onClick={() => menuClose()}
         >
-            <HiX />
+            <HiX className="text-xl" />
         </button>
         </div>
 

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { HiOutlineMenu } from "react-icons/hi";
 import Menus from "./Menus"
+import { AiFillHeart } from "react-icons/ai";
 
 export default function Header() {
   const [showHeader, setShowHeader] = useState(false);
@@ -28,8 +29,8 @@ export default function Header() {
       >
       <div className="bg-white/70 backdrop-blur-md shadow-md h-full flex items-center">
           <div className="container mx-auto flex justify-between px-4">
-              <HiOutlineMenu className="cursor-pointer" onClick={() => {setMenuOpen(true)}} />
-              <span className="font-bold">지원<strong className="text-primary text-xs p-1">❤️</strong>보람</span>
+              <HiOutlineMenu className="cursor-pointer text-xl" onClick={() => {setMenuOpen(true)}} />
+              <span className="font-bold flex justify-end flex-row">지원<strong className="text-red-500 text-xs p-1 content-center"><AiFillHeart /></strong>보람</span>
           </div>
       </div>
 
