@@ -15,7 +15,7 @@ export default function LocationMap() {
     const maps = [
         {
             map: '네이버',
-            img: 'https://i.namu.wiki/i/-48PJOApsqA-pICgQDSARGXdyiE4nGZdwcID-7ecmRZwDbPbjrKeCo3rCo3EI8Cja5alqmaGS9-sZ2TzgiHOzmMTKkvDSA9eEctu3ZlGD3g-BE5b-btJcznR0_Yo1kxcM5RUHTe9ckmc1TwcI6G8RQ.webp',
+            img: '/inviteTest/images/naver-maps.png',
             url: 'https://naver.me/xExWm05A',
         },
         // {
@@ -25,7 +25,7 @@ export default function LocationMap() {
         // },
         {
             map: '구글맵',
-            img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/36px-Google_%22G%22_logo.svg.png',
+            img: '/inviteTest/images/google-maps.webp',
             url: 'https://maps.app.goo.gl/wMPQZagZKEtaVXHo9',
         },
     ]
@@ -43,6 +43,7 @@ export default function LocationMap() {
                     <button
                         className="text-center flex-1 flex items-center justify-center gap-2 bg-white px-2 py-3 rounded-md shadow-md cursor-pointer"
                         onClick={() => {window.open(v.url)}}
+                        key={i}
                     >
                         <img className="object-cover w-[25px] h-[25px]" src={v.img} />
                         {v.map}

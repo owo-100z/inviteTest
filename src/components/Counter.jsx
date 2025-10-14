@@ -45,19 +45,19 @@ export default function Counter({ dDay = dayjs() }) {
             ) : (
                 <div className="grid grid-flow-col gap-5 text-center auto-cols-max">
                     {['일', '시', '분', '초'].map((unit, i) => (
-                        <div key={`unit-${i}`} className="flex flex-col font-omu">
+                        <div key={`unit-${i}`} className="flex flex-col font-paperozi">
                             {unit === '일' ? (
-                                <span className="countdown countdown-mod text-5xl">
+                                <span className="countdown countdown-mod text-4xl">
                                     {String(counter[unit]).split("").map((d, i) => (
                                         <span key={i} style={{"--value":d} } aria-live="polite">{d}</span>
                                     ))}
                                 </span>
                             ) : (
-                                <span className="countdown text-5xl">
+                                <span className="countdown text-4xl">
                                     <span style={{"--value":counter[unit]} } aria-live="polite">{counter[unit]}</span>
                                 </span>
                             )}
-                            {unit}
+                            <span className='font-omu'>{unit}</span>
                         </div>
                     ))}
                 </div>

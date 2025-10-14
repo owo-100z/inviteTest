@@ -3,7 +3,12 @@ const apiBaseUrl = '/api';
 import holidayKR from "holiday-kr";
 import holidays from '@/assets/holidays.json'
 
+import React from "react";
+import ReactDOM from "react-dom/client";
+import Popup from "@/components/layouts/popup";
+
 let loadingCnt = 0;
+let popupRoot = null;
 
 export const comm = {
   holidays: holidays,
@@ -101,5 +106,28 @@ export const utils = {
     if (is_holiday && prevDate.format('d') === 0) return true;
 
     return false;
+  }
+}
+
+export const pop_open = (content, title="") => {
+  if (popupRoot) return; // 이미 열려있으면 무시
+
+  popupRoot = document.createElement("div");
+  document.body.appendChild(popupRoot);
+
+  const root = ReactDOM.createRoot(popupRoot);
+
+  const handleClose = () => {
+    root.unmount();
+    document.body.removeChild(popupRoot);
+    popupRoot = null;
+  };
+
+  root.render(<Popup onClose={handleClose} title={title}>{content}</Popup>);
+}
+
+export const pop_close = () => {
+  if (popupRoot) {
+    document.getElementById("_popup_close")?.click();
   }
 }

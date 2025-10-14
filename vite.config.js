@@ -17,7 +17,7 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      '@common': path.resolve(__dirname, 'src/common/js/common.js'),
+      '@common': path.resolve(__dirname, 'src/common/js/common.jsx'),
       '@': path.resolve(__dirname, 'src'),
     }
   },

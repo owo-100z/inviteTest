@@ -8,9 +8,9 @@ export default function Calendar() {
     const diff = weddingDate.diff(dayjs(), 'day');
 
     return (
-        <div className="px-4">
+        <div className="leading-5 px-4">
             <div className="my-12 flex justify-center">
-                <p className="tracking-wider px-4 text-xl font-ongle">예식 안내</p>
+                <p className="tracking-wider px-4 text-2xl font-ongle">예식 안내</p>
             </div>
             <div className="flex flex-col text-center gap-y-2">
                 <p className="opacity-50">{weddingDate.format('YYYY년 M월 D일 ddd요일 | A h시 m분')}</p>

@@ -55,6 +55,10 @@ body {
     font-family: 'OngleipKonkon';
 }
 
+.font-paperozi {
+    font-family: 'Paperozi', sans-serif;
+}
+
 .font-ongle {
     font-family: 'OngleipKonkon';
 }
@@ -73,6 +77,14 @@ body {
 
 .countdown-mod span::before {
   content: attr(--value);
+}
+
+.groom-color {
+    color: #5f8b9b;
+}
+
+.bride-color {
+    color: #bb7273;
 }
 
 @plugin "daisyui" {

@@ -23,7 +23,7 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed inset-0 w-full h-[40px] top-0 z-50 transition-all duration-500 ease-initial
+      className={`fixed inset-0 w-full h-[40px] max-w-md mx-auto lg:w-[400px] top-0 z-50 transition-all duration-500 ease-initial
           ${showHeader ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full" }`
       }
       >

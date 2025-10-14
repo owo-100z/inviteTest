@@ -5,7 +5,7 @@ export default function Cover({ name_en, name_kr, date, imgUrl }) {
     const time = dayjs(date).format('ddd · hh:mm A');
     
     return (
-        <div className="w-full min-h-[100svh] lg:min-h-[90vh] relative lg:rounded-t-3xl overflow-hidden">
+        <div id="cover" className="bg-paper w-full min-h-[100svh] lg:min-h-[90vh] relative lg:rounded-t-3xl overflow-hidden">
             <h5 className="z-10 w-full pt-15 text-white absolute text-6xl leading-snug px-2 font-loving text-center">
                 <p>{ name_en }</p>
             </h5>

@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 
-export default function Box({ children, idx = 0, title, className="" }) {
+export default function Box({ children, idx = 0, title, className="", id }) {
     const boxRef = useRef(null);
     const [visible, setVisible] = useState(false);
 
@@ -40,10 +40,10 @@ export default function Box({ children, idx = 0, title, className="" }) {
     }, []);
 
     return (
-        <div ref={boxRef} className={`transition-all duration-1500 ease-initial ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-20"}
+        <div id={id} ref={boxRef} className={`transition-all duration-1500 ease-initial ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-20"}
             w-full h-full break-keep ${idx % 3 === 0 ? 'bg-base' : (idx % 3 === 1 ? 'bg-base-100/50' : 'bg-base-100')} ${className}`}>
             {title && (
-                <div className="px-4 py-12 flex justify-center">
+                <div className="px-4 py-10 flex justify-center">
                     <p className="tracking-wider px-4 text-6xl font-loving">{title}</p>
                 </div>
             )}
