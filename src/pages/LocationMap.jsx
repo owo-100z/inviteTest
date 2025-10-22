@@ -33,7 +33,7 @@ export default function LocationMap() {
     return (
         <>
             <div data-orientation="horizontal" role="none" className="shrink-0 h-[1px] w-full my-5 bg-black opacity-10" />
-            <div className="w-full h-[50vh]">
+            <div className="w-full h-103 px-1">
                 <div id="daumRoughmapContainer1759386969985" className="root_daum_roughmap root_daum_roughmap_landing"
                     style={{"width": "100%", "height": "100%"}}
                 ></div>

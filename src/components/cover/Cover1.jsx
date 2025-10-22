@@ -8,8 +8,8 @@ export default function Cover({ name_en, name_kr, date, imgUrl }) {
     const img2 = imgUrl.split(',')[1];
 
     return (
-        <div id="cover" className="w-full min-h-[100svh] lg:min-h-[90vh] relative lg:rounded-t-3xl overflow-hidden">
-            <div className="w-full min-h-[100svh] lg:min-h-[90vh] p-10 space-y-5 flex flex-col items-center justify-center">
+        <div id="cover" className="w-full relative lg:rounded-t-3xl overflow-hidden">
+            <div className="w-full p-10 space-y-5 flex flex-col items-center justify-center">
                 <div className="aspect-square w-full h-auto relative shadow-sm rounded-xl">
                     <div className="uppercase absolute bottom-1 -left-1.5 z-20 whitespace-nowrap transform -rotate-90 origin-bottom-left flex items-center">
                         <div className="flex items-center gap-1">

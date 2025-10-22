@@ -1,11 +1,11 @@
-const apiBaseUrl = '/api';
-// const apiBaseUrl = 'http://158.179.163.208/api';
+const apiBaseUrl = 'https://brjw.kro.kr/api';
+// const apiBaseUrl = 'http://localhost:3021/api';
 import holidayKR from "holiday-kr";
 import holidays from '@/assets/holidays.json'
 
 import React from "react";
 import ReactDOM from "react-dom/client";
-import Popup from "@/components/layouts/popup";
+import Popup from "@/components/popup";
 
 let loadingCnt = 0;
 let popupRoot = null;
@@ -32,10 +32,10 @@ export const comm = {
       fullUrl += `?${query}`;
     }
 
-    comm.log(`API Request: ${method} ${fullUrl}`);
-    if (params && method.toUpperCase() === 'GET') comm.log(`Query Parameters: ${JSON.stringify(params)}`);
-    if (body && method.toUpperCase() !== 'GET') comm.log(`Request Body: ${JSON.stringify(body)}`);
-    if (headers) comm.log(`Request Headers: ${JSON.stringify(headers)}`);
+    // comm.log(`API Request: ${method} ${fullUrl}`);
+    // if (params && method.toUpperCase() === 'GET') comm.log(`Query Parameters: ${JSON.stringify(params)}`);
+    // if (body && method.toUpperCase() !== 'GET') comm.log(`Request Body: ${JSON.stringify(body)}`);
+    // if (headers) comm.log(`Request Headers: ${JSON.stringify(headers)}`);
 
     try {
       if (loading && ++loadingCnt > 0) {
@@ -72,6 +72,9 @@ export const utils = {
     }
     if (obj.length === 0) return true;
     return false;
+  },
+  formatDate: (date, format='YYYY-MM-DD') => {
+    return dayjs(date).format(format);
   },
   getToday: (format='YYYY-MM-DD') => {
     const today = dayjs();

@@ -40,6 +40,14 @@
     font-display: swap;
 }
 
+/* 강원교육새움체 - 따뜻한 손글씨 */
+@font-face {
+    font-family: 'GangwonEducationSaeum';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/GangwonEduSaeeum_OTFMediumA.woff') format('woff');
+    font-weight: normal;
+    font-display: swap;
+}
+
 html {
   overflow-y: scroll;
   scrollbar-gutter: stable;
@@ -49,14 +57,19 @@ html {
 body {
     width: 100%;
     font-family: 'Paperozi', sans-serif;
+    word-break: keep-all;
 }
 
 .menu-font {
     font-family: 'OngleipKonkon';
 }
 
+.font-saeum {
+    font-family: 'GangwonEducationSaeum';
+}
+
 .font-paperozi {
-    font-family: 'Paperozi', sans-serif;
+    font-family: 'Paperozi';
 }
 
 .font-ongle {
@@ -73,10 +86,6 @@ body {
 
 .font-loving {
     font-family: 'Cafe24LovingU';
-}
-
-.countdown-mod span::before {
-  content: attr(--value);
 }
 
 .groom-color {

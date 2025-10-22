@@ -1,5 +1,4 @@
-import Calligraphy from "@/components/Calligraphy";
-import TextBox from "@/components/layouts/TextBox";
+import TextBox from "@/components/TextBox";
 
 export default function Cover() {
 
@@ -20,7 +19,7 @@ export default function Cover() {
 
     return (
         <>
-            <div className="leading-8 px-11 text-center text-sm text-gray-400">
+            <div className="leading-8 px-11 text-center text-gray-400">
                 {text.map((t, i) => (
                     t.length > 0 ? (
                         <TextBox key={`text-${i}`}>

@@ -1,4 +1,5 @@
 import { IoIosCall, IoIosMail } from "react-icons/io";
+import Container from "@/components/Container";
 
 export default function About() {
     const groom = "백지원"
@@ -16,11 +17,22 @@ export default function About() {
     const groom_img = "https://hellomybrand.com/wed/images/sample/cover/seoul-1.jpg";
     const bride_img = "https://hellomybrand.com/wed/images/sample/cover/seoul-2.jpg";
 
+    const introduction = [
+        '서로의 부족한 점을 채워주고, 함께 성장하며,',
+        '서로에 대한 깊은 이해와 존중을 바탕으로,',
+        '함께하는 모든 순간을 소중히 여기며,',
+        '서로의 꿈과 목표를 응원하고 지지하며,',
+        '사랑과 신뢰를 바탕으로 평생을 함께할 것을 약속합니다.'
+    ]
+
+    const loved_day = '2024-06-25';
+    const loving = utils.getDayDiff(loved_day, utils.getToday());
+
     const parents_call = () => {
         pop_open(
             <div className="my-4 w-full flex justify-center items-stretch gap-3">
                 <div className="flex-col flex w-full">
-                    <div className="flex flex-col items-center bg-white rounded-xl shadow-md p-4 space-y-4 w-full h-full">
+                    <div className="flex flex-col items-center bg-white rounded-xl border border-gray-200 shadow-md p-4 space-y-4 w-full h-full">
                         <div className="w-full h-auto text-center flex justify-center mb-10">
                             <span className={`font-semibold groom-color`}>신랑측</span>
                         </div>
@@ -47,7 +59,7 @@ export default function About() {
                     </div>
                 </div>
                 <div className="flex-col flex w-full">
-                    <div className="flex flex-col items-center bg-white rounded-xl shadow-md p-4 space-y-4 w-full h-full">
+                    <div className="flex flex-col items-center bg-white rounded-xl border border-gray-200 shadow-md p-4 space-y-4 w-full h-full">
                         <div className="w-full h-auto text-center flex justify-center mb-10">
                             <span className="font-semibold bride-color">신부측</span>
                         </div>
@@ -80,6 +92,10 @@ export default function About() {
 
     return (
         <>
+            <Container title="저희 커플을 소개합니다" description={introduction} text_css="font-saeum text-xl px-8 space-y-1" />
+            <div className="flex justify-center">
+                <p className="tracking-wider px-4 text-xl font-ongle">함께한 지 <strong className="bride-color">{loving}</strong>일💕</p>
+            </div>
             <div className="my-4 w-full px-4 flex justify-center items-stretch gap-2">
                 <div className="flex-col flex">
                     <div className="flex flex-col items-center bg-white rounded-xl shadow-md p-4 space-y-4 w-full h-full text-sm">

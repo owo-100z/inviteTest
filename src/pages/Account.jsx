@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Container from '@/components/Container';
 
 export default function Account() {
     const groom_accounts = [
@@ -42,20 +43,22 @@ export default function Account() {
         },
     ];
 
+    const notice = [
+        '멀리서도 축하의 마음을',
+        '전하고 싶으신 분들을 위해',
+        '계좌번호를 안내드립니다.',
+        '',
+        '소중한 축하를 보내주셔서 감사드리며,',
+        '따뜻한 마음에 깊이 감사드립니다.',
+    ]
+
     useEffect(() => {
 
     }, []);
 
     return (
         <div className="px-2 text-center mb-14">
-            <div className="my-12 flex justify-center">
-                <p className="tracking-wider px-4 text-2xl font-ongle">마음 전하실 곳</p>
-            </div>
-            <div className="text-gray-400 px-16 space-y-4 mb-10 leading-7">
-                <p className="opacity-80">저희 두 사람의 새로운 시작을 축복해 주시고자 하는 마음이 담긴 축의금은 아래 계좌로 전해주시면 감사하겠습니다.</p>
-                <p className="opacity-80">더불어 축의금은 저희 결혼식 준비와 신혼여행에 큰 힘이 될 것입니다.</p>
-                <p className="opacity-80">감사합니다.</p>
-            </div>
+            <Container title="마음 전하실 곳" description={notice} text_css="font-saeum text-2xl px-12 space-y-1" />
             <div className='px-2 space-y-4'>
                 <details className="collapse border-base-300 border">
                     <summary className="collapse-title font-semibold text-left groom-color opacity-70">신랑측</summary>

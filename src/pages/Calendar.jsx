@@ -1,5 +1,6 @@
 import MonthCalendar from "@/components/MonthCalendar"
 import Counter from "@/components/Counter"
+import Container from "@/components/Container";
 import { AiFillHeart } from "react-icons/ai"
 
 export default function Calendar() {
@@ -9,13 +10,7 @@ export default function Calendar() {
 
     return (
         <div className="leading-5 px-4">
-            <div className="my-12 flex justify-center">
-                <p className="tracking-wider px-4 text-2xl font-ongle">예식 안내</p>
-            </div>
-            <div className="flex flex-col text-center gap-y-2">
-                <p className="opacity-50">{weddingDate.format('YYYY년 M월 D일 ddd요일 | A h시 m분')}</p>
-                <p className="opacity-50">{weddingPlace}</p>
-            </div>
+            <Container title="예식 안내" description={[weddingDate.format('YYYY년 M월 D일 ddd요일 | A h시 m분'), weddingPlace]} text_css="px-4" />
             <div className="w-full px-5">
                 <div data-orientation="horizontal" role="none" className="shrink-0 h-[1px] w-full my-8 bg-black opacity-10" />
                 <div className="grid grid-cols-7 font-normal text-center gap-y-6">
