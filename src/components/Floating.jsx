@@ -13,7 +13,7 @@ export default function Floating({ wedding_data }) {
     }
     return (
         <div className="fab">
-            <button className="btn btn-lg btn-circle opacity-30" onClick={share}>
+            <button className="btn btn-lg btn-circle opacity-70" onClick={share}>
                 <HiOutlineShare />
             </button>
         </div>
