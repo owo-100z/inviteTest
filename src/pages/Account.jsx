@@ -3,23 +3,25 @@ import Container from '@/components/Container';
 import Collapse from '@/components/Collapse';
 
 export default function Account({ wedding_data }) {
-    const [open, setOpen] = useState(false);
     const groom_accounts = [
         {
             title: '신랑',
             bank: wedding_data?.groom_bank?.name?.replace('은행', '') || '',
+            logo: `/inviteTest/banks/${wedding_data?.groom_bank?.code}.png`,
             number: wedding_data?.groom_account || '',
             name: wedding_data?.groom || '',
         },
         {
             title: '신랑 아버지',
             bank: wedding_data?.groom_f_bank?.name?.replace('은행', '') || '',
+            logo: `/inviteTest/banks/${wedding_data?.groom_f_bank?.code}.png`,
             number: wedding_data?.groom_f_account || '',
             name: wedding_data?.groom_f || '',
         },
         {
             title: '신랑 어머니',
             bank: wedding_data?.groom_m_bank?.name?.replace('은행', '') || '',
+            logo: `/inviteTest/banks/${wedding_data?.groom_m_bank?.code}.png`,
             number: wedding_data?.groom_m_account || '',
             name: wedding_data?.groom_m || '',
         },
@@ -28,18 +30,21 @@ export default function Account({ wedding_data }) {
         {
             title: '신부',
             bank: wedding_data?.bride_bank?.name?.replace('은행', '') || '',
+            logo: `/inviteTest/banks/${wedding_data?.bride_bank?.code}.png`,
             number: wedding_data?.bride_account || '',
             name: wedding_data?.bride || '',
         },
         {
             title: '신부 아버지',
             bank: wedding_data?.bride_f_bank?.name.replace('은행', '') || '',
+            logo: `/inviteTest/banks/${wedding_data?.bride_f_bank?.code}.png`,
             number: wedding_data?.bride_f_account || '',
             name: wedding_data?.bride_f || '',
         },
         {
             title: '신부 어머니',
             bank: wedding_data?.bride_m_bank?.name.replace('은행', '') || '',
+            logo: `/inviteTest/banks/${wedding_data?.bride_m_bank?.code}.png`,
             number: wedding_data?.bride_m_account || '',
             name: wedding_data?.bride_m || '',
         },
@@ -60,7 +65,7 @@ export default function Account({ wedding_data }) {
                         <div key={index} className="justify-between flex w-full items-center border-t border-base-300">
                             <div className="p-3 text-start">
                                 <p className="font-semibold groom-color">{account.title}</p>
-                                <p>{`${account.bank} ${account.number}`}</p>
+                                <p className="text-sm flex items-center"><img src={account.logo} alt={account.bank} className="w-6 h-6 rounded" />{`${account.bank} ${account.number}`}</p>
                                 <p className="opacity-70">예금주: {account.name}</p>
                             </div>
                             <button key={`groom-account-btn-${index}`}
@@ -78,7 +83,7 @@ export default function Account({ wedding_data }) {
                         <div key={index} className="justify-between flex w-full items-center border-t border-base-300">
                             <div className="p-3 text-start">
                                 <p className="font-semibold bride-color">{account.title}</p>
-                                <p>{`${account.bank} ${account.number}`}</p>
+                                <p className="text-sm flex items-center"><img src={account.logo} alt={account.bank} className="w-6 h-6 rounded" />{`${account.bank} ${account.number}`}</p>
                                 <p className="opacity-70">예금주: {account.name}</p>
                             </div>
                             <button key={`bride-account-btn-${index}`}
