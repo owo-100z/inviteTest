@@ -10,6 +10,8 @@ import Popup from "@/components/popup";
 let loadingCnt = 0;
 let popupRoot = null;
 
+let weddingData = {};
+
 export const comm = {
   holidays: holidays,
   log: (...args) => {
@@ -62,6 +64,36 @@ export const comm = {
       }
     }
   },
+  getWeddingData: async (id = 1) => {
+    if (utils.isEmpty(weddingData)) {
+      weddingData = await fetchWeddingData(id);
+    } else {
+      weddingData = {}
+    }
+
+    return weddingData;
+  },
+  toast: (message) => {
+    const container = document.getElementById('toast-area');
+
+    const toast = document.createElement("div");
+    toast.className = "toast toast-center opacity-90 pointer-events-auto w-full max-w-md mx-auto lg:w-[400px] px-15";
+    toast.innerHTML = `
+      <div class="alert shadow-lg text-sm justify-center">
+        <span">${message}</span>
+      </div>
+    `;
+
+    container.appendChild(toast);
+    setTimeout(() => {
+      toast.classList.remove('opacity-90');
+      toast.classList.add("opacity-0", "transition-all", "duration-300");
+      // transition 끝나면 DOM에서 제거
+      setTimeout(() => {
+        toast.remove();
+      }, 3000);
+    }, 2000);
+  }
 }
 
 export const utils = {
@@ -72,6 +104,19 @@ export const utils = {
     }
     if (obj.length === 0) return true;
     return false;
+  },
+  formatPhoneNumber: (value) => {
+    const onlyNums = value.replace(/\D/g, ""); // 숫자만 남김
+
+    if (onlyNums.startsWith("02")) {
+      // 서울 지역번호
+      return onlyNums
+        .replace(/(^02)(\d{3,4})(\d{4})$/, "$1-$2-$3");
+    } else {
+      // 나머지 지역번호 (010, 031, 070 등)
+      return onlyNums
+        .replace(/(^\d{3})(\d{3,4})(\d{4})$/, "$1-$2-$3");
+    }
   },
   formatDate: (date, format='YYYY-MM-DD') => {
     return dayjs(date).format(format);
@@ -85,8 +130,8 @@ export const utils = {
     return date.format(format);
   },
   getDayDiff: (start, end) => {
-    const startDate = dayjs(start);
-    const endDate = dayjs(end);
+    const startDate = dayjs(start).startOf('day');
+    const endDate = dayjs(end).startOf('day');
     return endDate.diff(startDate, 'day');
   },
   isHoliday : (year, month, day) => {
@@ -132,5 +177,21 @@ export const pop_open = (content, title="") => {
 export const pop_close = () => {
   if (popupRoot) {
     document.getElementById("_popup_close")?.click();
+  }
+}
+
+const fetchWeddingData = async (id = 1) => {
+  const res = await comm.api(`/wedding/${id}`);
+  if (res.status === 'success') {
+    let result = {}
+    try {
+      result = JSON.parse(res.data?.wedding_data);
+    } catch {
+      result = {};
+    }
+
+    return result;
+  } else {
+    return {};
   }
 }

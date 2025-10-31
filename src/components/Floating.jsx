@@ -1,11 +1,11 @@
 import { HiOutlineShare } from "react-icons/hi";
 
-export default function Floating() {
+export default function Floating({ wedding_data }) {
     const share = () => {
         if (navigator.share) {
             navigator.share({
-                title: '우리 결혼합니다 💍',
-                url: 'https://owo-100z.github.io/inviteTest/',
+                title: wedding_data?.title,
+                url: wedding_data?.url,
             });
         } else {
             alert('공유 기능을 지원하지 않는 브라우저입니다.');

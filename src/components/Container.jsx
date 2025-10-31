@@ -1,13 +1,13 @@
-export default function Container({ title, description, font, gap=16, size, text_css="px-16 space-y-4" }) {
+export default function Container({ title, description, text_css="px-16 space-y-4" }) {
     return (
-        <div className="px-2 text-center mb-14">
+        <div className="px-2 text-center mb-8">
             {title && (<div className="my-12 flex justify-center">
                 <p className="tracking-wider px-4 text-2xl font-ongle">{ title }</p>
             </div>)}
-            <div className={`text-gray-400 mb-10 leading-7 ${text_css}`}>
+            <div className={`text-gray-400 leading-7 ${text_css}`}>
                 {description && description.map((n, i) => (
-                    n.length > 0 ? (
-                        <p key={`description-${i}`} className="opacity-80">{n}</p>
+                    n?.length > 0 ? (
+                        <p key={`description-${i}`} className={`${n.length === 1 || n.length === 2 ? 'text-3xl pb-1' : ''}`}>{n}</p>
                     ) : (
                         <br key={`br-${i}`} />
                     )

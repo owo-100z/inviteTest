@@ -4,7 +4,7 @@ import Menus from "./Menus"
 import { AiFillHeart } from "react-icons/ai";
 import { IoVolumeMuteSharp } from "react-icons/io5";
 
-export default function Header() {
+export default function Header({ wedding_data }) {
   const [showHeader, setShowHeader] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const audioRef = useRef(null);
@@ -67,13 +67,13 @@ export default function Header() {
         <div className="bg-white/70 backdrop-blur-md shadow-md h-full flex items-center">
             <div className="container mx-auto flex justify-between px-4">
                 <HiOutlineMenu className="cursor-pointer text-xl" onClick={() => {setMenuOpen(true)}} />
-                <span className="font-bold flex justify-end flex-row">지원<strong className="text-red-500/80 text-xs p-1 content-center"><AiFillHeart /></strong>보람</span>
+                <span className="font-bold flex justify-end flex-row">{wedding_data?.groom?.substr(1)}<strong className="text-red-500/80 text-xs p-1 content-center"><AiFillHeart /></strong>{wedding_data?.bride?.substr(1)}</span>
                 <div></div>
             </div>
         </div>
 
         {/* 풀스크린 오버레이 */}
-        {menuOpen && (<Menus close={() => {setMenuOpen(false)}} />)}
+        {menuOpen && (<Menus close={() => {setMenuOpen(false)}} wedding_date={wedding_data?.wedding_date} />)}
       </div>
     </header>
   );

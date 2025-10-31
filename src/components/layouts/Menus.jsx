@@ -13,15 +13,13 @@ const menuItems = [
   { name: "마음전하실 곳", link: "#account", show: false },
 ];
 
-const weddingDate = dayjs('2026-06-13');
-
 let scrollY = 0;
 
-export default function MenuOverlay({ close = () => {} }) {
+export default function MenuOverlay({ close = () => {}, wedding_date }) {
   const [fadeOut, setFadeOut] = useState(false);
   const [menus, setMenus] = useState(menuItems);
 
-  const limit = weddingDate.diff(dayjs(), 'day');
+  const limit = utils.getDayDiff(utils.getToday(), wedding_date) - 1;
 
   // 스크롤 차단
   useEffect(() => {

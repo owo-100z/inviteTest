@@ -3,14 +3,19 @@ import Counter from "@/components/Counter"
 import Container from "@/components/Container";
 import { AiFillHeart } from "react-icons/ai"
 
-export default function Calendar() {
-    const weddingDate = dayjs('2026-06-13 14:30');
-    const weddingPlace = '더 세인트 신도림 41층 파노라마 홀';
-    const diff = weddingDate.diff(dayjs(), 'day');
+export default function Calendar({ wedding_data }) {
+    const weddingDate = dayjs(wedding_data?.wedding_date);
+    const weddingPlace = wedding_data?.wedding_place;
+    const diff = utils.getDayDiff(utils.getToday(), wedding_data?.wedding_date) - 1;
+
+    const description = [weddingDate?.format('YYYY년 M월 D일 ddd요일 | A h시 m분'), weddingPlace];
+
+    const groom = wedding_data?.groom?.substr(1);
+    const bride = wedding_data?.bride?.substr(1);
 
     return (
         <div className="leading-5 px-4">
-            <Container title="예식 안내" description={[weddingDate.format('YYYY년 M월 D일 ddd요일 | A h시 m분'), weddingPlace]} text_css="px-4" />
+            <Container title="예식 안내" description={description} text_css="px-4" />
             <div className="w-full px-5">
                 <div data-orientation="horizontal" role="none" className="shrink-0 h-[1px] w-full my-8 bg-black opacity-10" />
                 <div className="grid grid-cols-7 font-normal text-center gap-y-6">
@@ -31,7 +36,7 @@ export default function Calendar() {
             </div>
             <div className="flex flex-row justify-center mb-16 font-omu">
                 <span className="flex tracking-wider px-4 text-lg opacity-70">
-                    지원<strong className="text-red-500 text-xs p-1 content-center"><AiFillHeart /></strong>보람 결혼식이
+                    {groom}<strong className="text-red-500 text-xs p-1 content-center"><AiFillHeart /></strong>{bride} 결혼식이
                     {diff > 0 ? (
                         <>
                             <strong className="text-lg px-1">{diff}일</strong> 남았습니다

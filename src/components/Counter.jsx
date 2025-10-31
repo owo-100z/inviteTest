@@ -11,6 +11,7 @@ export default function Counter({ dDay = dayjs() }) {
 
     useEffect(() => {
         const targetDate = dDay;
+        setOver(false);
         if (targetDate.diff(dayjs(), 'second') <= 0) {
             setOver(true);
             return;
