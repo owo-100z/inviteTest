@@ -15,7 +15,7 @@ export default function LocationMap() {
     const maps = [
         {
             map: '네이버',
-            img: '/inviteTest/images/naver-maps.png',
+            img: '/images/naver-maps.png',
             url: 'https://naver.me/xExWm05A',
         },
         // {
@@ -25,7 +25,7 @@ export default function LocationMap() {
         // },
         {
             map: '구글맵',
-            img: '/inviteTest/images/google-maps.webp',
+            img: '/images/google-maps.webp',
             url: 'https://maps.app.goo.gl/wMPQZagZKEtaVXHo9',
         },
     ]

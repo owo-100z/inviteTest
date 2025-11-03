@@ -5,7 +5,7 @@ export default function Location({ wedding_data }) {
     const weddingPlace = wedding_data?.wedding_place;
     const telnum = wedding_data?.wedding_attract?.replace(/[^0-9]/g, '');
     const address = wedding_data?.wedding_address;
-    const sketch_map = '/inviteTest/images/thesaint.png';
+    const sketch_map = '/images/thesaint.png';
 
     const handleCopy = (text) => {
         navigator.clipboard.writeText(text).then(() => {

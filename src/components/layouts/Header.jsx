@@ -54,7 +54,7 @@ export default function Header({ wedding_data }) {
 
   return (
     <header className='fixed inset-0 w-full h-[40px] max-w-md mx-auto lg:w-[400px] top-0 z-50'>
-      <audio ref={audioRef} autoPlay loop src="/inviteTest/music/Ending.mp3" />
+      <audio ref={audioRef} autoPlay loop src="/music/Ending.mp3" />
       <button className='absolute top-1/2 right-5 -translate-y-1/2 pb-1 cursor-pointer z-[100] opacity-50'>
         <label className="swap">
           <input ref={musicToggle} type="checkbox" />
