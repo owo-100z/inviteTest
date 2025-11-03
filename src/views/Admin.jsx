@@ -22,7 +22,7 @@ export default function Admin() {
         const res = await comm.getWeddingData(user_idx);
 
         // URL 세팅
-        const url = 'https://owo-100z.github.io/inviteTest/';
+        const url = 'https://260613.vercel.app';
 
         if(!utils.isEmpty(res)) {
             setData({...res, url});
