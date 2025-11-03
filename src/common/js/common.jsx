@@ -5,7 +5,7 @@ import holidays from '@/assets/holidays.json'
 
 import React from "react";
 import ReactDOM from "react-dom/client";
-import Popup from "@/components/popup";
+import Popup from "@/components/Popup";
 
 let loadingCnt = 0;
 let popupRoot = null;
@@ -77,7 +77,7 @@ export const comm = {
     const container = document.getElementById('toast-area');
 
     const toast = document.createElement("div");
-    toast.className = "toast toast-center opacity-90 pointer-events-auto w-full max-w-md mx-auto lg:w-[400px] px-15";
+    toast.className = "toast toast-center relative opacity-90 pointer-events-auto w-full max-w-md lg:w-[400px] px-15";
     toast.innerHTML = `
       <div class="alert shadow-lg text-sm justify-center">
         <span">${message}</span>
@@ -87,7 +87,7 @@ export const comm = {
     container.appendChild(toast);
     setTimeout(() => {
       toast.classList.remove('opacity-90');
-      toast.classList.add("opacity-0", "transition-all", "duration-300");
+      toast.classList.add("opacity-0", "transition-all", "duration-1000");
       // transition 끝나면 DOM에서 제거
       setTimeout(() => {
         toast.remove();
