@@ -270,7 +270,7 @@ export default function Admin() {
                                     }}>- 삭제</button>
                                 </div>
                             </div>
-                            <div className={`flex justify-between items-center gap-2 ${colorClasses[data?.directions?.[directionIdx]?.color || "gray"]}`}>
+                            <div className="flex justify-between items-center gap-2">
                                 <input type="text" placeholder="교통수단 종류 (ex. 자차, 버스)" className="input w-full bg-white rounded-lg border-gray" value={data?.directions?.at(directionIdx)?.title || ''} onChange={(e) => {
                                     const newDirection = data.directions?.length > 0 ? [...data.directions] : [];
                                     const tmp = data?.directions?.at(directionIdx) ? {...data?.directions?.at(directionIdx)} : {}
@@ -278,7 +278,7 @@ export default function Admin() {
                                     newDirection[directionIdx] = tmp;
                                     setData({...data, directions: newDirection});
                                 }} />
-                                <div className={`flex gap-1 items-center ${colorClasses[data?.directions?.[directionIdx]?.color || "gray"]}`}>
+                                <div className="flex gap-1 items-center">
                                     {/* 자동차 */}
                                     <input
                                         type="radio"
@@ -348,7 +348,7 @@ export default function Admin() {
                                     />
                                 </div>
                             </div>
-                            <input type="text" placeholder="교통수단 명 (ex. 1호선, 2호선 등 생략가능)" className="input w-full bg-white rounded-lg border-gray" value={data?.directions?.at(directionIdx)?.subTitle || ''} onChange={(e) => {
+                            <input type="text" placeholder="교통수단 명 (ex. 1호선, 2호선 등 생략가능)" className={`input w-full bg-white rounded-lg border-gray ${colorClasses[data?.directions?.[directionIdx]?.color || "gray"]}`} value={data?.directions?.at(directionIdx)?.subTitle || ''} onChange={(e) => {
                                 const newDirection = data.directions?.length > 0 ? [...data.directions] : [];
                                 const tmp = data?.directions?.at(directionIdx) ? {...data?.directions?.at(directionIdx)} : {}
                                 tmp.subTitle = e.target.value;
