@@ -1,16 +1,29 @@
-import Layout from "@/components/layouts/Layout"
+import Layout from "@/components/layouts/AdminLayout"
 import Box from "@/components/Box"
 import { useEffect, useState } from "react";
 import DateTimePicker from "@/components/DateTimePicker";
 import BankSelect from "@/components/BankSelect";
+import ColorSelector from "@/components/ColorSelector";
 import { MdArrowLeft, MdArrowRight } from "react-icons/md";
+import { FaCar, FaBus, FaTrain } from "react-icons/fa";
 
 const user_idx = 1;
+
+const colorClasses = {
+  gray: "text-gray-500",
+  red: "text-red-500",
+  orange: "text-orange-500",
+  yellow: "text-yellow-400",
+  green: "text-green-500",
+  blue: "text-blue-500",
+  purple: "text-purple-500",
+};
 
 export default function Admin() {
     const [data, setData] = useState({});
     const [isNewData, setIsNewData] = useState(true);
     const [ntcIdx, setNtcIdx] = useState(0);
+    const [directionIdx, setDirectionIdx] = useState(0);
 
     useEffect(() => {
         document.title = "관리자 페이지";
@@ -58,43 +71,33 @@ export default function Admin() {
                             <DateTimePicker initialValue={data?.start_date} onChange={(res) => {setData({...data, start_date: res?.format('YYYY-MM-DD')})}} showTime={false} />
                         </div>
                         <div className="flex gap-3">
-                            <label className="floating-label groom-color">
+                            <label className="floating-label groom-color w-full">
                                 <input type="text" placeholder="신랑이름" className="input w-full bg-white" value={data?.groom || ''} onChange={(e) => {setData({...data, groom: e.target.value})}} />
                                 <span className="bg-white">신랑</span>
                             </label>
-                            <label className="floating-label bride-color">
+                            <label className="floating-label bride-color w-full">
                                 <input type="text" placeholder="신부이름" className="input w-full bg-white" value={data?.bride || ''} onChange={(e) => {setData({...data, bride: e.target.value})}} />
                                 <span className="bg-white">신부</span>
                             </label>
                         </div>
                         <div className="flex gap-3">
-                            <label className="floating-label groom-color">
+                            <label className="floating-label groom-color w-full">
                                 <input type="text" placeholder="신랑 영어이름" className="input w-full bg-white" value={data?.groom_en || ''} onChange={(e) => {setData({...data, groom_en: e.target.value})}} />
                                 <span className="bg-white">groom</span>
                             </label>
-                            <label className="floating-label bride-color">
+                            <label className="floating-label bride-color w-full">
                                 <input type="text" placeholder="신부 영어이름" className="input w-full bg-white" value={data?.bride_en || ''} onChange={(e) => {setData({...data, bride_en: e.target.value})}} />
                                 <span className="bg-white">bride</span>
                             </label>
                         </div>
                         <div className="flex gap-3">
-                            <label className="floating-label groom-color">
+                            <label className="floating-label groom-color w-full">
                                 <input type="text" placeholder="신랑 전화번호" className="input w-full bg-white" value={data?.groom_tel || ''} onChange={(e) => {setData({...data, groom_tel: e.target.value})}} />
                                 <span className="bg-white">전화번호</span>
                             </label>
-                            <label className="floating-label bride-color">
+                            <label className="floating-label bride-color w-full">
                                 <input type="text" placeholder="신부 전화번호" className="input w-full bg-white" value={data?.bride_tel || ''} onChange={(e) => {setData({...data, bride_tel: e.target.value})}} />
                                 <span className="bg-white">전화번호</span>
-                            </label>
-                        </div>
-                        <div className="flex gap-3">
-                            <label className="floating-label groom-color">
-                                <input type="text" placeholder="신랑 계좌번호" className="input w-full bg-white" value={data?.groom_account || ''} onChange={(e) => {setData({...data, groom_account: e.target.value})}} />
-                                <span className="bg-white">계좌번호</span>
-                            </label>
-                            <label className="floating-label bride-color">
-                                <input type="text" placeholder="신부 계좌번호" className="input w-full bg-white" value={data?.bride_account || ''} onChange={(e) => {setData({...data, bride_account: e.target.value})}} />
-                                <span className="bg-white">계좌번호</span>
                             </label>
                         </div>
                         <div className="flex gap-2">
@@ -136,21 +139,21 @@ export default function Admin() {
                             <textarea className="textarea h-30 bg-white w-full" autoComplete="off" placeholder="메시지를 작성해 주세요" value={data?.introduction || ''} onChange={(e) => {setData({...data, introduction: e.target.value})}}></textarea>
                         </fieldset>
                         <div className="flex gap-3 groom-color">
-                            <label className="floating-label">
+                            <label className="floating-label w-full">
                                 <input type="text" placeholder="신랑측 아버지 성함" className="input w-full bg-white" value={data?.groom_f || ''} onChange={(e) => {setData({...data, groom_f: e.target.value})}} />
                                 <span className="bg-white">신랑 아버지</span>
                             </label>
-                            <label className="floating-label">
+                            <label className="floating-label w-full">
                                 <input type="text" placeholder="신랑측 어머니 성함" className="input w-full bg-white" value={data?.groom_m || ''} onChange={(e) => {setData({...data, groom_m: e.target.value})}} />
                                 <span className="bg-white">신랑 어머니</span>
                             </label>
                         </div>
                         <div className="flex gap-3 groom-color">
-                            <label className="floating-label">
+                            <label className="floating-label w-full">
                                 <input type="text" placeholder="신랑측 아버지 전화번호" className="input w-full bg-white" value={data?.groom_f_tel || ''} onChange={(e) => {setData({...data, groom_f_tel: e.target.value})}} />
                                 <span className="bg-white">전화번호</span>
                             </label>
-                            <label className="floating-label">
+                            <label className="floating-label w-full">
                                 <input type="text" placeholder="신랑측 어머니 전화번호" className="input w-full bg-white" value={data?.groom_m_tel || ''} onChange={(e) => {setData({...data, groom_m_tel: e.target.value})}} />
                                 <span className="bg-white">전화번호</span>
                             </label>
@@ -170,21 +173,21 @@ export default function Admin() {
                             </label>
                         </div>
                         <div className="flex gap-3 bride-color">
-                            <label className="floating-label">
+                            <label className="floating-label w-full">
                                 <input type="text" placeholder="신부측 아버지 성함" className="input w-full bg-white" value={data?.bride_f || ''} onChange={(e) => {setData({...data, bride_f: e.target.value})}} />
                                 <span className="bg-white">신부 아버지</span>
                             </label>
-                            <label className="floating-label">
+                            <label className="floating-label w-full">
                                 <input type="text" placeholder="신부측 어머니 성함" className="input w-full bg-white" value={data?.bride_m || ''} onChange={(e) => {setData({...data, bride_m: e.target.value})}} />
                                 <span className="bg-white">신부 어머니</span>
                             </label>
                         </div>
                         <div className="flex gap-3 bride-color">
-                            <label className="floating-label">
+                            <label className="floating-label w-full">
                                 <input type="text" placeholder="신부측 아버지 전화번호" className="input w-full bg-white" value={data?.bride_f_tel || ''} onChange={(e) => {setData({...data, bride_f_tel: e.target.value})}} />
                                 <span className="bg-white">전화번호</span>
                             </label>
-                            <label className="floating-label">
+                            <label className="floating-label w-full">
                                 <input type="text" placeholder="신부측 어머니 전화번호" className="input w-full bg-white" value={data?.bride_m_tel || ''} onChange={(e) => {setData({...data, bride_m_tel: e.target.value})}} />
                                 <span className="bg-white">전화번호</span>
                             </label>
@@ -210,10 +213,12 @@ export default function Admin() {
                                 </div>
                                 <div className="flex gap-2 items-center">
                                     <MdArrowLeft className="cursor-pointer" onClick={() => {if(ntcIdx > 0) setNtcIdx(ntcIdx-1)}} />
-                                    <span>{ntcIdx+1} / {data.notice?.length}</span>
+                                    <span>{ntcIdx+1} / {data.notice?.length || 1}</span>
                                     <MdArrowRight className="cursor-pointer" onClick={() => {if(ntcIdx < data.notice?.length-1) setNtcIdx(ntcIdx+1)}} />
                                     <button className="btn btn-xs" onClick={() => {
-                                        setNtcIdx(data.notice?.length);
+                                        setNtcIdx(data.notice?.length || 1);
+                                        if (!data.notice) data.notice = [""];
+                                        if (!data.ntcTitle) data.ntcTitle = ["안내사항"];
                                         data.notice?.push("");
                                         data.ntcTitle?.push("안내사항");
                                     }}>+ 추가</button>
@@ -244,6 +249,127 @@ export default function Admin() {
                             <span className="label w-[15%]">안내글</span>
                             <input type="text" placeholder="청첩장 안내글 (ex. 우리 결혼해요 💍)" className="input w-full bg-white rounded-lg border-gray" value={data?.title || ''} onChange={(e) => {setData({...data, title: e.target.value})}} />
                         </div>
+                        <fieldset className="fieldset text-start">
+                            <div className="flex justify-between items-center">
+                                <div className="flex gap-2 items-center">
+                                    <span className="font-semibold opacity-70">오시는길</span>
+                                </div>
+                                <div className="flex gap-2 items-center">
+                                    <MdArrowLeft className="cursor-pointer" onClick={() => {if(directionIdx > 0) setDirectionIdx(directionIdx-1)}} />
+                                    <span>{directionIdx+1} / {data.directions?.length || 1}</span>
+                                    <MdArrowRight className="cursor-pointer" onClick={() => {if(directionIdx < data.directions?.length-1) setDirectionIdx(directionIdx+1)}} />
+                                    <button className="btn btn-xs" onClick={() => {
+                                        setDirectionIdx(data.directions?.length || 1);
+                                        if (!data.directions) data.directions = [{}];
+                                        data.directions?.push({});
+                                    }}>+ 추가</button>
+                                    <button className="btn btn-xs" onClick={() => {
+                                        setDirectionIdx(directionIdx > 0 ? directionIdx-1 : 0);
+                                        const newDirection = directionIdx > 0 ? data.directions?.filter((_, i) => i !== directionIdx) : [{}];
+                                        setData({ ...data, directions: newDirection });
+                                    }}>- 삭제</button>
+                                </div>
+                            </div>
+                            <div className={`flex justify-between items-center gap-2 ${colorClasses[data?.directions?.[directionIdx]?.color || "gray"]}`}>
+                                <input type="text" placeholder="교통수단 종류 (ex. 자차, 버스)" className="input w-full bg-white rounded-lg border-gray" value={data?.directions?.at(directionIdx)?.title || ''} onChange={(e) => {
+                                    const newDirection = data.directions?.length > 0 ? [...data.directions] : [];
+                                    const tmp = data?.directions?.at(directionIdx) ? {...data?.directions?.at(directionIdx)} : {}
+                                    tmp.title = e.target.value;
+                                    newDirection[directionIdx] = tmp;
+                                    setData({...data, directions: newDirection});
+                                }} />
+                                <div className={`flex gap-1 items-center ${colorClasses[data?.directions?.[directionIdx]?.color || "gray"]}`}>
+                                    {/* 자동차 */}
+                                    <input
+                                        type="radio"
+                                        id={`radio-car-${directionIdx}`}
+                                        name={`radio-${directionIdx}`} // 중요: index별로 name 분리
+                                        className="radio radio-xs"
+                                        checked={data?.directions?.[directionIdx]?.type === 'car'}
+                                        onChange={() => {
+                                            const newDirection = [...(data.directions || [])];
+                                            const tmp = { ...(newDirection[directionIdx] || {}) };
+                                            tmp.type = 'car';
+                                            newDirection[directionIdx] = tmp;
+                                            setData({ ...data, directions: newDirection });
+                                        }}
+                                    />
+                                    <label htmlFor={`radio-car-${directionIdx}`}>
+                                        <FaCar className="text-lg cursor-pointer" />
+                                    </label>
+
+                                    {/* 버스 */}
+                                    <input
+                                        type="radio"
+                                        id={`radio-bus-${directionIdx}`}
+                                        name={`radio-${directionIdx}`}
+                                        className="radio radio-xs"
+                                        checked={data?.directions?.[directionIdx]?.type === 'bus'}
+                                        onChange={() => {
+                                            const newDirection = [...(data.directions || [])];
+                                            const tmp = { ...(newDirection[directionIdx] || {}) };
+                                            tmp.type = 'bus';
+                                            newDirection[directionIdx] = tmp;
+                                            setData({ ...data, directions: newDirection });
+                                        }}
+                                    />
+                                    <label htmlFor={`radio-bus-${directionIdx}`}>
+                                        <FaBus className="text-lg cursor-pointer" />
+                                    </label>
+
+                                    {/* 기차 */}
+                                    <input
+                                        type="radio"
+                                        id={`radio-train-${directionIdx}`}
+                                        name={`radio-${directionIdx}`}
+                                        className="radio radio-xs"
+                                        checked={data?.directions?.[directionIdx]?.type === 'train'}
+                                        onChange={() => {
+                                            const newDirection = [...(data.directions || [])];
+                                            const tmp = { ...(newDirection[directionIdx] || {}) };
+                                            tmp.type = 'train';
+                                            newDirection[directionIdx] = tmp;
+                                            setData({ ...data, directions: newDirection });
+                                        }}
+                                    />
+                                    <label htmlFor={`radio-train-${directionIdx}`}>
+                                        <FaTrain className="text-lg cursor-pointer" />
+                                    </label>
+                                    &nbsp;
+                                    <ColorSelector
+                                        value={data?.directions?.[directionIdx]?.color || "gray"}
+                                        onChange={(color) => {
+                                            const newDirections = [...(data.directions || [])];
+                                            const tmp = { ...(newDirections[directionIdx] || {}) };
+                                            tmp.color = color;
+                                            newDirections[directionIdx] = tmp;
+                                            setData({ ...data, directions: newDirections });
+                                        }}
+                                    />
+                                </div>
+                            </div>
+                            <input type="text" placeholder="교통수단 명 (ex. 1호선, 2호선 등 생략가능)" className="input w-full bg-white rounded-lg border-gray" value={data?.directions?.at(directionIdx)?.subTitle || ''} onChange={(e) => {
+                                const newDirection = data.directions?.length > 0 ? [...data.directions] : [];
+                                const tmp = data?.directions?.at(directionIdx) ? {...data?.directions?.at(directionIdx)} : {}
+                                tmp.subTitle = e.target.value;
+                                newDirection[directionIdx] = tmp;
+                                setData({...data, directions: newDirection});
+                            }} />
+                            <textarea className="textarea h-30 bg-white w-full" autoComplete="off" placeholder="이용 방법을 작성해 주세요" value={data?.directions?.at(directionIdx)?.desc || ''} onChange={(e) => {
+                                const newDirection = data.directions?.length > 0 ? [...data.directions] : [];
+                                const tmp = data?.directions?.at(directionIdx) ? {...data?.directions?.at(directionIdx)} : {}
+                                tmp.desc = e.target.value;
+                                newDirection[directionIdx] = tmp;
+                                setData({...data, directions: newDirection});
+                            }}></textarea>
+                            <div className="flex justify-between items-center gap-2">
+                                <input type="text" placeholder="교통수단 안내 링크 추가" className="input w-full bg-white rounded-lg border-gray" value={data?.directionsLink || ''} onChange={(e) => {setData({...data, directionsLink: e.target.value})}} />
+                                <label className="label">
+                                    <input type="checkbox" className="toggle" checked={data?.useDirectionsLink} onChange={(e) => {setData({...data, useDirectionsLink: !data?.useDirectionsLink})}} />
+                                    링크 사용
+                                </label>
+                            </div>
+                        </fieldset>
                         <button className="btn btn-outline w-full" onClick={saveWeddingData}>저장하기</button>
                     </div>
                 </div>

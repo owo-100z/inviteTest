@@ -120,7 +120,7 @@ export default function BankSelectSearchable({
       </button>
 
       {open && (
-        <div className="absolute mt-2 z-50 w-[200px] bg-base-100 border border-base-300 rounded-lg shadow-lg overflow-hidden">
+        <div className="absolute mt-2 z-50 w-full min-w-[200px] bg-base-100 border border-base-300 rounded-lg shadow-lg overflow-hidden">
           {searchable && (
             <div className="p-2">
               <input

@@ -6,7 +6,7 @@ import { AiFillHeart } from "react-icons/ai"
 export default function Calendar({ wedding_data }) {
     const weddingDate = dayjs(wedding_data?.wedding_date);
     const weddingPlace = wedding_data?.wedding_place;
-    const diff = utils.getDayDiff(utils.getToday(), wedding_data?.wedding_date) - 1;
+    const diff = utils.getDayDiff(utils.getToday(), wedding_data?.wedding_date);
 
     const description = [weddingDate?.format('YYYY년 M월 D일 ddd요일 | A h시 m분'), weddingPlace];
 

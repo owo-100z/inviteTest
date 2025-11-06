@@ -19,7 +19,7 @@ export default function MenuOverlay({ close = () => {}, wedding_date }) {
   const [fadeOut, setFadeOut] = useState(false);
   const [menus, setMenus] = useState(menuItems);
 
-  const limit = utils.getDayDiff(utils.getToday(), wedding_date) - 1;
+  const limit = utils.getDayDiff(utils.getToday(), wedding_date);
 
   // 스크롤 차단
   useEffect(() => {
@@ -87,7 +87,7 @@ export default function MenuOverlay({ close = () => {}, wedding_date }) {
 
         {/* 하단 문구 */}
         <div className="text-center text-sm text-gray-500 p-4">
-          {limit > 0 ? `❤️ 예식까지 D-${limit}일 ❤️` : "🎉 예식이 시작되었습니다 🎉"}
+          {limit > 0 ? `❤️ 예식까지 D-${limit}일 ❤️` : limit === 0 ? "🎉 오늘은 예식일 입니다 🎉" : "🎉 예식이 종료되었습니다 🎉"}
         </div>
     </div>
   );

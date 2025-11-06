@@ -47,7 +47,7 @@ export default function Test() {
             <Box id="calendar" idx={2}> <Calendar wedding_data={data} /> </Box>
             <Box id="location" idx={0} title="Location"> <Location wedding_data={data} /> </Box>
             <Box idx={0}> <LocationMap /> </Box>
-            <Box idx={0}> <Directions /> </Box>
+            <Box idx={0}> <Directions wedding_data={data} /> </Box>
             <Box id="notice" idx={0}> <Notice wedding_data={data} /> </Box>
             <Box id="gallery" idx={1} title="Gallery"> <Gallery /> </Box>
             <Box id="message" idx={2} title="Message"> <Message /> </Box>

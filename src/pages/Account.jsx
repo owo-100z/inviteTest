@@ -65,7 +65,7 @@ export default function Account({ wedding_data }) {
                         <div key={index} className="justify-between flex w-full items-center border-t border-base-300">
                             <div className="p-3 text-start">
                                 <p className="font-semibold groom-color">{account.title}</p>
-                                <p className="text-sm flex items-center"><img src={account.logo} alt={account.bank} className="w-6 h-6 rounded" />{`${account.bank} ${account.number}`}</p>
+                                <p className="text-sm flex items-center gap-1"><img src={account.logo} alt={account.bank} className="w-6 h-6 rounded" />{`${account.bank} ${account.number}`}</p>
                                 <p className="opacity-70">예금주: {account.name}</p>
                             </div>
                             <button key={`groom-account-btn-${index}`}
@@ -83,7 +83,7 @@ export default function Account({ wedding_data }) {
                         <div key={index} className="justify-between flex w-full items-center border-t border-base-300">
                             <div className="p-3 text-start">
                                 <p className="font-semibold bride-color">{account.title}</p>
-                                <p className="text-sm flex items-center"><img src={account.logo} alt={account.bank} className="w-6 h-6 rounded" />{`${account.bank} ${account.number}`}</p>
+                                <p className="text-sm flex items-center gap-1"><img src={account.logo} alt={account.bank} className="w-6 h-6 rounded" />{`${account.bank} ${account.number}`}</p>
                                 <p className="opacity-70">예금주: {account.name}</p>
                             </div>
                             <button key={`bride-account-btn-${index}`}
