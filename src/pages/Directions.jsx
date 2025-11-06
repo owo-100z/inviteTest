@@ -77,7 +77,7 @@ export default function Directions({ wedding_data }) {
         <>
             {useLink && (
                 <div className="px-8 pb-2 text-center text-gray-400 text-sm">
-                    <button className='btn w-full btn-outline' onClick={() => {window.open(directionsLink, "_blank")}}>오시는 길 참고 영상</button>
+                    <button className='btn w-full btn-outline' onClick={() => {window.open(directionsLink)}}>오시는 길 참고 영상</button>
                 </div>
             )}
             {methods && methods.map((v, i) => (

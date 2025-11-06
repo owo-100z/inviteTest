@@ -18,11 +18,11 @@ export default function LocationMap() {
             img: '/images/naver-maps.png',
             url: 'https://naver.me/xExWm05A',
         },
-        // {
-        //     map: 'T MAP',
-        //     img: 'https://i.namu.wiki/i/u1lXxuNzJzxLst2GcEYb464H90E65qfeCLGVeifO_KNLSOvZRljVLzcheqietKC10TuA6iQpmkkxy_0S8KNCfU7r-eKu_-2-tgLd5YQNodmYUPFUMfaG3RTfXUdpQaavSfOvX_Q3FvdT2keLfNmhWQ.svg',
-        //     url: '',
-        // },
+        {
+            map: 'T MAP',
+            img: '/images/tmap.svg',
+            url: 'tmap://route?goalname=%EB%8D%94%EC%84%B8%EC%9D%B8%ED%8A%B8%EC%9B%A8%EB%94%A9&goalx=126.8897748355872&goaly=37.50931341073843',
+        },
         {
             map: '구글맵',
             img: '/images/google-maps.webp',
