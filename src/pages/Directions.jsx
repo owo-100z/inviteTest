@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FaCar, FaBus, FaTrain, FaWalking } from "react-icons/fa";
+import { FaCar, FaBus, FaTrain } from "react-icons/fa";
 
 const colorClasses = {
   gray: "text-gray-500",
@@ -40,39 +40,6 @@ export default function Directions({ wedding_data }) {
         }, {}) || []
     );
 
-    // const methods = [
-    //     {
-    //         type: '자차',
-    //         img: <FaCar />,
-    //         method: [
-    //             {detail: '네비게이션 : \'더 세인트\' 검색\n서울 구로구 경인로 662 디큐브시티'},
-    //             {type: '주차안내', detail: '주차장에 주차해주세용', img: <LuSquareParking />},
-    //         ]
-    //     },
-    //     {
-    //         type: '버스',
-    //         img: <FaBus />,
-    //         method: [
-    //             {type: '172(우리은행종로지점 방면)', color: 'text-blue-600/50', detail: '서울광장역 하차 → 데미타스커피 왼쪽 방면 → 도보 5분'}
-    //         ]
-    //     },
-    //     {
-    //         type: '전세버스',
-    //         img: <FaBus />,
-    //         method: [
-    //             {type: '부산', detail: '출발지'},
-    //             {type: '사천', detail: '경유지'}
-    //         ]
-    //     },
-    //     {
-    //         type: '지하철',
-    //         img: <FaTrain />,
-    //         method: [
-    //             {type: '2호선', color: 'text-green-600/50', detail: '서울광장역 하차 → 데미타스커피 왼쪽 방면 → 도보 5분'}
-    //         ]
-    //     },
-    // ]
-
     return (
         <>
             {useLink && (
@@ -105,16 +72,6 @@ export default function Directions({ wedding_data }) {
                             ))}                            
                         </div>)
                     ))}
-                    {/* <div className="py-4 text-start text-sm">
-                        <span className='flex items-center gap-2'>
-                            {v.subTitle && (
-                                (<strong className={v.color || ''}>{v.subTitle}</strong>)
-                            )}
-                        </span>
-                        {v.desc && v.desc.split('\n').map((t, k) => (
-                            <p key={k} className='h-5'>{t}</p>
-                        ))}
-                    </div> */}
                     <div data-orientation="horizontal" role="none" className="shrink-0 h-[1px] w-full bg-black opacity-10" />
                 </div>
             ))}
