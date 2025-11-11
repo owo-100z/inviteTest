@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { MdArrowLeft, MdArrowRight } from "react-icons/md";
+import Gallery_P from './Gallery_P';
 
 export default function Gallery() {
     const [imgIndex, setImgIndex] = useState(0);
     const [images, setImages] = useState([]);
     const [fade, setFade] = useState(false);
+
+    const [pIdx, setPidx] = useState(0);
 
     useEffect(() => {
         // 실제 이미지 URL로 교체 필요
@@ -66,30 +69,7 @@ export default function Gallery() {
 
 
     const gallery_popup = (index = 0) => {
-        pop_open(
-            <>
-                <div className="absolute w-full flex justify-start items-center -my-6 z-10">
-                    <span>{index+1} / {images.length}</span>
-                </div>
-                <div className="carousel h-[80svh] w-full bg-white">
-                    {images.length > 0 ? images.map((src, i) => (
-                        <div key={`slide-${i}`} id={`slide${i+1}`} className="carousel-item relative w-full">
-                            <img src={src} className="w-full object-cover" />
-                            <div className="absolute left-1 right-1 top-1/2 flex -translate-y-1/2 transform justify-between h-full">
-                                <a href={`#slide${i === 0 ? 0 : i}`} className="w-15 h-full content-center text-start">❮</a>
-                                <div className='w-full' onClick={() => {pop_close();}}></div>
-                                <a href={`#slide${i === images.length - 1 ? images.length : i + 2}`} className="w-15 h-full content-center text-end">❯</a>
-                            </div>
-                        </div>
-                    )) : (
-                        <p>준비중입니다...</p>
-                    )}
-                </div>
-            </>
-        );
-        setTimeout(() => {
-            document.getElementById(`slide${index+1}`)?.scrollIntoView({ behavior: 'instant', block: 'nearest', inline: 'nearest' });
-        }, 10);
+        pop_open(<Gallery_P index={index} images={images} />);
     }
 
     const handlePaginate = (direction) => {
