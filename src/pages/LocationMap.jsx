@@ -1,16 +1,59 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 
-export default function LocationMap() {
-    // 카카오맵 -> 지도퍼가기 -> Lender부분 붙여넣기
-    // mapWidth: 100%, mapHeight: 100%로 수정
+export default function LocationMap({ wedding_data }) {
+    const mapContainer = useRef(null);
+
+    const weddingPlace = wedding_data?.wedding_place;
+    const weddingDate = dayjs(wedding_data?.wedding_date)?.format('YYYY년 M월 D일 A h시 m분');
+
+    const lat = 37.50931341073843;
+    const lng = 126.8897748355872;
+
     useEffect(() => {
-        new window.daum.roughmap.Lander({
-            timestamp: "1759386969985",
-            key: "2bjoo34g7yi4",
-            mapWidth: "100%",
-            mapHeight: "100%",
-        }).render();
-    }, []);
+        const position = new window.kakao.maps.LatLng(lat, lng);
+        const options = {
+            center: position,
+            level: 3,
+        };
+
+        const map = new window.kakao.maps.Map(mapContainer.current, options);
+
+        const markerImageUrl = '/images/marker_p.png';
+        const markerImageSize = new kakao.maps.Size(70, 70); // 마커 이미지의 크기
+        const markerImageOptions = {
+            offset : new kakao.maps.Point(35, 55)// 마커 좌표에 일치시킬 이미지 안의 좌표
+        };
+
+		// 마커 이미지를 생성한다
+		const markerImage = new kakao.maps.MarkerImage(markerImageUrl, markerImageSize, markerImageOptions);
+
+        const marker = new kakao.maps.Marker({
+		    position: position, // 마커의 좌표
+		    image : markerImage, // 마커의 이미지
+            clickable: false,
+		    map: map // 마커를 표시할 지도 객체
+		});
+
+        kakao.maps.event.addListener(map, 'click', function(e) {
+            window.open('https://kko.to/laY5yZVbLv');
+        });
+
+        const info = `
+                    <div style="padding:5px;min-width:150px;background-color: #fee;border:1px solid #ccc;font-size:0.875em;line-height:1.4;border-radius:8px; text-align:center;">
+                        <strong>${weddingPlace}❤️</strong><br/>
+                        ${weddingDate}<br/><br/>
+                        <span style="color: #888;">지도 클릭 시, 카카오맵으로 이동합니다.</span>
+                    </div>
+                    `;
+
+		const customOverlay = new kakao.maps.CustomOverlay({
+			map: map,
+			content: info,
+			position: new kakao.maps.LatLng(lat, lng),
+			xAnchor: 0.5,
+			yAnchor: 1.6
+		});
+    }, [weddingPlace, weddingDate]);
 
     const maps = [
         {
@@ -33,10 +76,8 @@ export default function LocationMap() {
     return (
         <>
             <div data-orientation="horizontal" role="none" className="shrink-0 h-[1px] w-full my-5 bg-black opacity-10" />
-            <div className="w-full h-103 px-1">
-                <div id="daumRoughmapContainer1759386969985" className="root_daum_roughmap root_daum_roughmap_landing"
-                    style={{"width": "100%", "height": "100%"}}
-                ></div>
+            <div className="w-full h-80 px-3 pb-3">
+                <div style={{ "width": "100%", "height": "100%" }} ref={mapContainer}></div>
             </div>
             <div className="flex flex-row items-center justify-between w-full h-5 space-x-2 text-[0.875em] px-8 py-5">
                 {maps.map((v, i) => (

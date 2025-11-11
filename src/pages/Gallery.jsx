@@ -40,22 +40,52 @@ export default function Gallery() {
         setImages(fetchedImages);
     }, []);
 
+    useEffect(() => {
+        const slides = document.querySelectorAll('.carousel-item');
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const id = entry.target.id; // e.g. 'slide3'
+                        const idx = parseInt(id.replace('slide', '')) - 1;
+                        console.log('현재 인덱스:', idx);
+                        // setCurrentIndex(idx);  // 필요하면 상태 업데이트
+                    }
+                });
+            },
+            {
+                root: document.querySelector('.carousel'),
+                threshold: 0.6, // 60% 이상 보이면 "현재 슬라이드"로 간주
+            }
+        );
+
+        slides.forEach(slide => observer.observe(slide));
+
+        return () => observer.disconnect();
+    }, []);
+
+
     const gallery_popup = (index = 0) => {
         pop_open(
-            <div className="carousel h-[80svh] w-full bg-white">
-                {images.length > 0 ? images.map((src, i) => (
-                    <div key={`slide-${i}`} id={`slide${i+1}`} className="carousel-item relative w-full">
-                        <img src={src} className="w-full object-cover" />
-                        <div className="absolute left-1 right-1 top-1/2 flex -translate-y-1/2 transform justify-between h-full">
-                            <a href={`#slide${i === 0 ? 0 : i}`} className="w-15 h-full content-center text-start">❮</a>
-                            <div className='w-full' onClick={() => {pop_close();}}></div>
-                            <a href={`#slide${i === images.length - 1 ? images.length : i + 2}`} className="w-15 h-full content-center text-end">❯</a>
+            <>
+                <div className="absolute w-full flex justify-start items-center -my-6 z-10">
+                    <span>{index+1} / {images.length}</span>
+                </div>
+                <div className="carousel h-[80svh] w-full bg-white">
+                    {images.length > 0 ? images.map((src, i) => (
+                        <div key={`slide-${i}`} id={`slide${i+1}`} className="carousel-item relative w-full">
+                            <img src={src} className="w-full object-cover" />
+                            <div className="absolute left-1 right-1 top-1/2 flex -translate-y-1/2 transform justify-between h-full">
+                                <a href={`#slide${i === 0 ? 0 : i}`} className="w-15 h-full content-center text-start">❮</a>
+                                <div className='w-full' onClick={() => {pop_close();}}></div>
+                                <a href={`#slide${i === images.length - 1 ? images.length : i + 2}`} className="w-15 h-full content-center text-end">❯</a>
+                            </div>
                         </div>
-                    </div>
-                )) : (
-                    <p>준비중입니다...</p>
-                )}
-            </div>
+                    )) : (
+                        <p>준비중입니다...</p>
+                    )}
+                </div>
+            </>
         );
         setTimeout(() => {
             document.getElementById(`slide${index+1}`)?.scrollIntoView({ behavior: 'instant', block: 'nearest', inline: 'nearest' });

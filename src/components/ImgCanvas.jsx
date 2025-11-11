@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 
-export default function IntroWithPetals({ imgUrl, isEffect = true, type = 'sakura', rounded = false, className = "" }) {
+export default function IntroWithPetals({ imgUrl, isEffect = true, type = 'freesia', rounded = false, className = "" }) {
   const canvasRef = useRef(null);
 
   useEffect(() => {

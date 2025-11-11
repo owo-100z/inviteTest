@@ -60,7 +60,7 @@ export default function Cover({ wedding_data, imgUrl }) {
                         </div>
                     </div>
                     <div className="absolute top-0 left-0 w-full h-full bg-transparent z-10"></div>
-                    <ImgCanvas imgUrl={img2} rounded={true} type="maple" />
+                    <ImgCanvas imgUrl={img2} rounded={true} type="sakura" />
                 </div>
             </div>
         </div>
