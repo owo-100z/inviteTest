@@ -169,8 +169,6 @@ export const pop_open = (content, title="") => {
     root.unmount();
     document.body.removeChild(popupRoot);
     popupRoot = null;
-
-    comm.log(window._galleryObserver);
   };
 
   root.render(<Popup onClose={handleClose} title={title}>{content}</Popup>);

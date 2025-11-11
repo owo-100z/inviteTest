@@ -46,8 +46,10 @@ export default function Gallery() {
     }
 
     const chgIndex = (index) => {
+        if (imgIndex === Math.floor(index / 9)) return;
+
         const pageIndex = Math.floor(index / 9);
-        setImgIndex(pageIndex);
+        paginate(pageIndex);
     }
 
     const handlePaginate = (direction) => {
