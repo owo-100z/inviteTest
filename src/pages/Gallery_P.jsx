@@ -1,9 +1,14 @@
 import { useState, useEffect } from "react";
 
-export default function Gallery_P({ index = 0, images = [] }) {
+export default function Gallery_P({ index = 0, images = [], chgIndex = () => {} }) {
     const [pIdx, setPidx] = useState(index);
 
     const containerRef = useRef(null);
+    const latestIdxRef = useRef(pIdx);
+
+    useEffect(() => {
+        latestIdxRef.current = pIdx;
+    }, [pIdx]);
 
     useEffect(() => {
         const container = containerRef.current;
@@ -29,7 +34,10 @@ export default function Gallery_P({ index = 0, images = [] }) {
             container.querySelector(`#slide${index+1}`)?.scrollIntoView({ behavior: 'instant', block: 'nearest', inline: 'nearest' });
         });
 
-        return () => observer.disconnect();
+        return () => {
+            observer.disconnect();
+            chgIndex(latestIdxRef.current);
+        }
     }, [images, index]);
 
     return (

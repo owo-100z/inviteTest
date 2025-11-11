@@ -7,8 +7,6 @@ export default function Gallery() {
     const [images, setImages] = useState([]);
     const [fade, setFade] = useState(false);
 
-    const [pIdx, setPidx] = useState(0);
-
     useEffect(() => {
         // 실제 이미지 URL로 교체 필요
         const fetchedImages = [
@@ -43,33 +41,13 @@ export default function Gallery() {
         setImages(fetchedImages);
     }, []);
 
-    useEffect(() => {
-        const slides = document.querySelectorAll('.carousel-item');
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const id = entry.target.id; // e.g. 'slide3'
-                        const idx = parseInt(id.replace('slide', '')) - 1;
-                        console.log('현재 인덱스:', idx);
-                        // setCurrentIndex(idx);  // 필요하면 상태 업데이트
-                    }
-                });
-            },
-            {
-                root: document.querySelector('.carousel'),
-                threshold: 0.6, // 60% 이상 보이면 "현재 슬라이드"로 간주
-            }
-        );
-
-        slides.forEach(slide => observer.observe(slide));
-
-        return () => observer.disconnect();
-    }, []);
-
-
     const gallery_popup = (index = 0) => {
-        pop_open(<Gallery_P index={index} images={images} />);
+        pop_open(<Gallery_P index={index} images={images} chgIndex={chgIndex} />);
+    }
+
+    const chgIndex = (index) => {
+        const pageIndex = Math.floor(index / 9);
+        setImgIndex(pageIndex);
     }
 
     const handlePaginate = (direction) => {
