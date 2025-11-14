@@ -14,6 +14,10 @@ export default function LocationMap({ wedding_data }) {
         const options = {
             center: position,
             level: 3,
+            draggable: false,
+            scrollwheel: false,
+            disableDoubleClick: false,
+            disableDoubleClickZoom: false,
         };
 
         const map = new window.kakao.maps.Map(mapContainer.current, options);
@@ -77,7 +81,7 @@ export default function LocationMap({ wedding_data }) {
         <>
             <div data-orientation="horizontal" role="none" className="shrink-0 h-[1px] w-full my-5 bg-black opacity-10" />
             <div className="w-full h-80 px-3 pb-3">
-                <div style={{ "width": "100%", "height": "100%" }} ref={mapContainer}></div>
+                <div className="cursor-pointer" style={{ "width": "100%", "height": "100%" }} ref={mapContainer}></div>
             </div>
             <div className="flex flex-row items-center justify-between w-full h-5 space-x-2 text-[0.875em] px-8 py-5">
                 {maps.map((v, i) => (

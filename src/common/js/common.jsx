@@ -7,6 +7,8 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import Popup from "@/components/Popup";
 
+import axios from "axios";
+
 let loadingCnt = 0;
 let popupRoot = null;
 
@@ -22,7 +24,7 @@ export const comm = {
     const timestamp = utils.getToday('YYYY-MM-DD HH:mm:ss.SSS');
     console.error(`[${timestamp}]: `, ...args);
   },
-  api: async (url, { method = 'GET', params, body, headers } = {}) => {
+  api: async (url, { method = 'GET', params, body, headers, onUploadProgress } = {}) => {
     // 기본 URL 설정
     let fullUrl = url.indexOf('http://') > -1 || url.indexOf('https://') > -1 ? url : apiBaseUrl + url;
 
@@ -40,28 +42,26 @@ export const comm = {
     // if (headers) comm.log(`Request Headers: ${JSON.stringify(headers)}`);
 
     try {
-      if (loading && ++loadingCnt > 0) {
-        loading.classList.remove("hidden");
-      }
-      const res = await fetch(fullUrl, {
+      if (loading && ++loadingCnt > 0) loading.classList.remove("hidden");
+
+      const res = await axios({
         method,
+        url: fullUrl,
+        params,
+        data: body,
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           ...headers,
         },
-        body: method.toUpperCase() !== 'GET' ? JSON.stringify(body) : undefined,
+        onUploadProgress, // 업로드 진행률
       });
 
-      const data = await res.json(); // fetch 성공 시 데이터
-
-      return data;
+      return res.data;
     } catch (e) {
       comm.log(`API Error: ${e}`);
-      return { status: 'error', error: e.message };
+      return { status: 'error', error: e.response?.data?.error || e.message || 'API 요청 중 오류가 발생하였습니다.' };
     } finally {
-      if (loading && --loadingCnt === 0) {
-        loading.classList.add("hidden");
-      }
+      if (loading && --loadingCnt === 0) loading.classList.add("hidden");
     }
   },
   getWeddingData: async (id = 1) => {
@@ -157,7 +157,7 @@ export const utils = {
   }
 }
 
-export const pop_open = (content, title="") => {
+export const pop_open = (content, title="", full=true) => {
   if (popupRoot) return; // 이미 열려있으면 무시
 
   popupRoot = document.createElement("div");
@@ -171,7 +171,7 @@ export const pop_open = (content, title="") => {
     popupRoot = null;
   };
 
-  root.render(<Popup onClose={handleClose} title={title}>{content}</Popup>);
+  root.render(<Popup onClose={handleClose} title={title} full={full}>{content}</Popup>);
 }
 
 export const pop_close = () => {
