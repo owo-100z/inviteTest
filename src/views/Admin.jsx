@@ -27,6 +27,18 @@ export default function Admin() {
     const [ntcIdx, setNtcIdx] = useState(0);
     const [directionIdx, setDirectionIdx] = useState(0);
 
+    /* 사진 관련 여기에 몰아넣기
+    {
+        intro: [],
+        outro: [],
+        groom: [],
+        bride: [],
+        gallery: [],
+        deleted: [],    // 삭제할 사진들
+    }
+    */
+    const [photos, setPhotos] = useState({});
+
     useEffect(() => {
         document.title = "관리자 페이지";
 
@@ -36,7 +48,7 @@ export default function Admin() {
     const fetchData = async () => {
         const res = await comm.getWeddingData(user_idx);
 
-        // URL 세팅
+        // URL 세팅 (manual)
         const url = 'https://260613.vercel.app';
 
         if(!utils.isEmpty(res)) {
@@ -48,9 +60,28 @@ export default function Admin() {
     }
 
     const saveWeddingData = async () => {
+        if (!confirm('데이터를 저장하시겠습니까?')) {
+            return;
+        }
+
+        const updateData = { ...data };
+
+        // 사진 있을때 사진부터 저장
+        if (!utils.isEmpty(photos)) {
+            const imgRes = await saveImage(photos);
+
+            if (imgRes.status !== 'success') {
+                if (!confirm('이미지 업로드 중 오류가 발생하였습니다.\n이미지 저장 없이 데이터를 저장하시겠습니까?')) {
+                    return;
+                }
+            } else {
+                Object.assign(updateData, imgRes.data);
+            }
+        }
+
         const url = `/wedding${isNewData ? '' : `/${user_idx}`}`;
         const method = isNewData ? 'POST' : 'PUT';
-        const body = {data};
+        const body = {updateData};
 
         const res = await comm.api(url, {method, body});
 
@@ -59,6 +90,75 @@ export default function Admin() {
         } else {
             comm.error('* 에러발생 * ===> ', res);
             alert('오류가 발생하였습니다.');
+        }
+    }
+
+    const saveImage = async (files) => {
+        const formData = new FormData();
+        for (const type in files) {
+            comm.log(`type: ${type}`);
+            if (type === 'deleted') continue;
+            files[type].forEach((file) => {
+                formData.append(type, file);
+            });
+        }
+        if (files.deleted && files.deleted.length > 0) {
+            files.deleted.forEach((fileUrl) => {
+                formData.append('deleted', fileUrl);
+            });
+        }
+        const res = await comm.api('/upload', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+            onUploadProgress: (progressEvent) => {
+                const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+                comm.log(`이미지 업로드 진행률: ${percentCompleted}%`);
+
+                if (percentCompleted === 100) {
+                    comm.toast('이미지 업로드가 완료되었습니다.');
+                } else {
+                    comm.toast(`이미지 업로드 진행률: ${percentCompleted}%`);
+                }
+            },
+        });
+
+        if (res.status === 'success') {
+            comm.log('업로드된 이미지들:', res.data);
+            // 업로드된 이미지 URL을 데이터에 반영
+            for (const type in files) {
+                if (type === 'deleted') continue;
+                if (res.data[type]) {
+                    data[type] = res.data[type];
+                }
+            }
+        } else {
+            comm.error('* 이미지 업로드 에러 * ===> ', res);
+            alert('이미지 업로드 중 오류가 발생하였습니다.');
+        }
+
+        return res;
+    }
+
+    const imageUpload = (files, type) => {
+        if (!files) return;
+
+        if (!Array.isArray(files)) {
+            files = [files];
+        }
+
+        setPhotos({ ...photos, [type]: files });
+
+        comm.log('업로드된 이미지들:', files);
+
+        const uploadedImages = data[type] ? [...data[type]] : [];
+
+        if (type !== 'gallery' && uploadedImages.length > 0) {
+            // 단일 이미지인 경우 기존 이미지를 대체
+            setPhotos({ ...photos, deleted: [...photos.deleted || [], uploadedImages[0]] });
+            data[type] = [...files];
         }
     }
 
@@ -74,21 +174,21 @@ export default function Admin() {
                     <div className="flex gap-3">
                         <ImageUploaderS
                             label="인트로 이미지"
-                            onChangeFile={(file) => { comm.log('업로드된 이미지: ', file); }}
+                            onChangeFile={(file) => { imageUpload(file, 'intro'); }}
                         />
                         <ImageUploaderS
                             label="아웃트로 이미지"
-                            onChangeFile={(file) => { comm.log('업로드된 이미지: ', file); }}
+                            onChangeFile={(file) => { imageUpload(file, 'outro'); }}
                         />
                     </div>
                     <div className="flex gap-3">
                         <ImageUploaderS
                             label="신랑 프로필 이미지"
-                            onChangeFile={(file) => { comm.log('업로드된 이미지: ', file); }}
+                            onChangeFile={(file) => { imageUpload(file, 'groom'); }}
                         />
                         <ImageUploaderS
                             label="신부 프로필 이미지"
-                            onChangeFile={(file) => { comm.log('업로드된 이미지: ', file); }}
+                            onChangeFile={(file) => { imageUpload(file, 'bride'); }}
                         />
                     </div>
                     <div className="flex gap-3">
@@ -386,7 +486,7 @@ export default function Admin() {
                         <div className="flex justify-between items-center gap-2">
                             <input type="text" placeholder="교통수단 안내 링크 추가" className="input w-full bg-white rounded-lg border-gray" value={data?.directionsLink || ''} onChange={(e) => {setData({...data, directionsLink: e.target.value})}} />
                             <label className="label">
-                                <input type="checkbox" className="toggle" checked={data?.useDirectionsLink} onChange={(e) => {setData({...data, useDirectionsLink: !data?.useDirectionsLink})}} />
+                                <input type="checkbox" className="toggle" checked={data?.useDirectionsLink || false} onChange={(e) => {setData({...data, useDirectionsLink: !data?.useDirectionsLink})}} />
                                 링크 사용
                             </label>
                         </div>
@@ -394,7 +494,7 @@ export default function Admin() {
                     <ImageUploaderM
                         label="갤러리 이미지 업로드"
                         onChangeFiles={(files) => {
-                            comm.log('업로드된 이미지들:', files);
+                            imageUpload(files, 'gallery');
                         }}
                     />
                     <button className="btn btn-outline w-full" onClick={saveWeddingData}>저장하기</button>

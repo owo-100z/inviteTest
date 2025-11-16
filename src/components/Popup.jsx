@@ -16,8 +16,6 @@ export default function Popup({ onClose, children, title="", full=true }) {
         const y = window.scrollY;
         scrollY = y;
 
-        if (scrollY === 0) return;
-
         document.body.style.position = "fixed";
         document.body.style.top = `-${y}px`;
     }
@@ -47,7 +45,7 @@ export default function Popup({ onClose, children, title="", full=true }) {
                 }
             >
                 <div
-                    className={`bg-white p-6 w-full overflow-y-auto ${full ? "h-full" : "h-[50vh] max-h-[80vh] rounded-lg"}`}
+                    className={`bg-white p-6 w-full overflow-y-auto ${full ? "h-full" : "min-h-80 max-h-[90vh] rounded-lg"}`}
                     style={{ scrollbarWidth: 'none' }}
                     onClick={(e) => e.stopPropagation()}
                 >
