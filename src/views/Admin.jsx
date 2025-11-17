@@ -39,6 +39,9 @@ export default function Admin() {
     */
     const [photos, setPhotos] = useState({});
 
+    const [uploadProgress, setUploadProgress] = useState(0);
+    const [imageUploading, setImageUploading] = useState(false);
+
     useEffect(() => {
         document.title = "관리자 페이지";
 
@@ -94,53 +97,64 @@ export default function Admin() {
     }
 
     const saveImage = async (files) => {
-        const formData = new FormData();
+        // 파일 삭제 먼저 처리
+        if (files.deleted && files.deleted.length > 0) {
+            const formData = new FormData();
+            files.deleted.forEach((fileUrl) => formData.append('deleted', fileUrl));
+
+            await comm.api('/upload', { method: 'POST', body: formData });
+        }
+
+        const cnt = Object.values(files).reduce((sum, arr) => {
+            if (Array.isArray(arr) && arr !== files.deleted) {
+                return sum + arr.length;
+            }
+            return sum;
+        }, 0);
+
+        if (cnt > 0) {
+            setImageUploading(true);
+            setUploadProgress(0);
+        }
+
+        const result = { status: 'success', data: {} };
 
         for (const type in files) {
-            comm.log(`type: ${type}`);
             if (type === 'deleted') continue;
-            files[type].forEach((file) => {
+
+            for (const file of files[type]) {
+                const formData = new FormData();
                 formData.append(type, file);
-            });
-        }
-        if (files.deleted && files.deleted.length > 0) {
-            files.deleted.forEach((fileUrl) => {
-                formData.append('deleted', fileUrl);
-            });
-        }
 
-        comm.log(formData);
+                const res = await comm.api('/upload', {
+                    method: 'POST',
+                    body: formData,
+                    onUploadProgress: (progressEvent) => {
+                        const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+                        comm.log(`이미지 업로드 진행률: ${percentCompleted}%`);
 
-        const res = await comm.api('/upload', {
-            method: 'POST',
-            body: formData,
-            onUploadProgress: (progressEvent) => {
-                const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-                comm.log(`이미지 업로드 진행률: ${percentCompleted}%`);
+                        setUploadProgress((prev) => {
+                            const totalUploaded = prev * (cnt - 1) / 100 + percentCompleted / 100;
+                            return (totalUploaded / cnt) * 100;
+                        });
+                    }
+                });
 
-                if (percentCompleted === 100) {
-                    comm.toast('이미지 업로드가 완료되었습니다.');
+                // comm.log('개별 업로드 결과:', res);
+                if (res.status === 'success') {
+                    // comm.log(`업로드된 이미지들 [${type}]:`, res.data);
+                    if (type === 'gallery') result.data[type] = result.data[type] ? [...result.data[type], ...res.data[type]] : res.data[type];
+                    else if (res.data[type]) result.data[type] = res.data[type];
                 } else {
-                    comm.toast(`이미지 업로드 진행률: ${percentCompleted}%`);
-                }
-            },
-        });
-
-        if (res.status === 'success') {
-            comm.log('업로드된 이미지들:', res.data);
-            // 업로드된 이미지 URL을 데이터에 반영
-            for (const type in files) {
-                if (type === 'deleted') continue;
-                if (res.data[type]) {
-                    data[type] = res.data[type];
+                    comm.error(`* 이미지 업로드 에러 [${type}] * ===> `, res);
+                    return res;
                 }
             }
-        } else {
-            comm.error('* 이미지 업로드 에러 * ===> ', res);
-            alert('이미지 업로드 중 오류가 발생하였습니다.');
         }
 
-        return res;
+        setImageUploading(false);
+
+        return result;
     }
 
     const imageUpload = (files, type) => {
@@ -160,13 +174,22 @@ export default function Admin() {
             // 단일 이미지인 경우 기존 이미지를 대체
             const newPhotos = { ...newImages, deleted: [...newImages.deleted || [], uploadedImages[0]] };
             setPhotos(newPhotos);
-
-            data[type] = [...files];
         }
     }
 
     return (
         <Layout>
+            {imageUploading && (
+                <div className="fixed inset-0 flex flex-col items-center justify-center bg-black/50 z-50">
+                    <div className="bg-white p-6 rounded-lg shadow-lg w-80 text-center">
+                        <p className="mb-4 font-semibold">이미지 업로드 중...</p>
+                        <div className="w-full bg-gray-200 rounded-full h-4 mb-4">
+                            <div className="bg-blue-500 h-4 rounded-full transition-all duration-500" style={{ width: `${uploadProgress}%` }}></div>
+                        </div>
+                        <p>{Math.round(uploadProgress)}%</p>
+                    </div>
+                </div>
+            )}
             <div className="px-2 text-center mb-6">
                 <p className="tracking-wider px-4 mb-6 mt-6">관리페이지</p>
                 <div className="grid gap-5 px-2">
