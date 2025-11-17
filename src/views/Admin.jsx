@@ -78,6 +78,15 @@ export default function Admin() {
                     return;
                 }
             } else {
+                const galleryImgs = data.gallery ? [...data.gallery] : [];
+                if (imgRes.data.gallery) {
+                    imgRes.data.gallery.forEach((imgUrl) => {
+                        if (!galleryImgs.includes(imgUrl)) {
+                            galleryImgs.push(imgUrl);
+                        }
+                    });
+                    imgRes.data.gallery = galleryImgs;
+                }
                 Object.assign(updateData, imgRes.data);
             }
         }
@@ -119,6 +128,7 @@ export default function Admin() {
 
         const result = { status: 'success', data: {} };
 
+        let uploadedCnt = 0;
         for (const type in files) {
             if (type === 'deleted') continue;
 
@@ -132,11 +142,7 @@ export default function Admin() {
                     onUploadProgress: (progressEvent) => {
                         const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
                         comm.log(`이미지 업로드 진행률: ${percentCompleted}%`);
-
-                        setUploadProgress((prev) => {
-                            const totalUploaded = prev * (cnt - 1) / 100 + percentCompleted / 100;
-                            return (totalUploaded / cnt) * 100;
-                        });
+                        setUploadProgress(((uploadedCnt + (percentCompleted / 100)) / cnt) * 100);
                     }
                 });
 
@@ -145,6 +151,8 @@ export default function Admin() {
                     // comm.log(`업로드된 이미지들 [${type}]:`, res.data);
                     if (type === 'gallery') result.data[type] = result.data[type] ? [...result.data[type], ...res.data[type]] : res.data[type];
                     else if (res.data[type]) result.data[type] = res.data[type];
+
+                    uploadedCnt++;
                 } else {
                     comm.error(`* 이미지 업로드 에러 [${type}] * ===> `, res);
                     return res;
