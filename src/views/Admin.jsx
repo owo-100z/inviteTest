@@ -117,9 +117,6 @@ export default function Admin() {
         const res = await comm.api('/upload', {
             method: 'POST',
             body: formData,
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
             onUploadProgress: (progressEvent) => {
                 const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
                 comm.log(`이미지 업로드 진행률: ${percentCompleted}%`);

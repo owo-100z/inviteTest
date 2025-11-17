@@ -51,7 +51,6 @@ export const comm = {
         params,
         data: body,
         headers: {
-          "Content-Type": "application/json",
           ...headers,
         },
         onUploadProgress, // 업로드 진행률
