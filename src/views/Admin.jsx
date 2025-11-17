@@ -96,9 +96,6 @@ export default function Admin() {
     const saveImage = async (files) => {
         const formData = new FormData();
 
-        comm.log('사진업로드 테스트 ======================');
-        comm.log(files);
-
         for (const type in files) {
             comm.log(`type: ${type}`);
             if (type === 'deleted') continue;
@@ -153,25 +150,24 @@ export default function Admin() {
             files = [files];
         }
 
+        const _f = files[0];
+        const _s = (Math.round(_f.size / 1024 / 1024 * 10) / 10);
+        const _sz = _s ? `${_s} MB` : (Math.round(_f.size / 1024 * 10) / 10) + ' KB';
+
+        alert(`선택된 파일: ${_f.name} (${_f.type}, ${_sz})`);
+
         const newImages = { ...photos, [type]: files };
 
         setPhotos(newImages);
 
-        comm.log('업로드된 이미지들:', files);
-
         const uploadedImages = data[type] ? [...data[type]] : [];
-
-        comm.log(`기존 ${type}이미지: `, data[type]);
-        comm.log('기존 이미지들: ', uploadedImages);
 
         if (type !== 'gallery' && uploadedImages.length > 0) {
             // 단일 이미지인 경우 기존 이미지를 대체
             const newPhotos = { ...newImages, deleted: [...newImages.deleted || [], uploadedImages[0]] };
             setPhotos(newPhotos);
-            comm.log('이미지들: ', newPhotos);
 
             data[type] = [...files];
-            comm.log('대체된 이미지들: ', data[type]);
         }
     }
 
