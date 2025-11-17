@@ -1,15 +1,18 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { use, useEffect, useRef, useState } from "react";
 
-export default function ImageUploaderM({ label, onChangeFiles, initImages = [] }) {
+export default function ImageUploaderM({ label, onChangeFiles, initImages = [], limit = 0 }) {
   const [files, setFiles] = useState([]);
   const [previews, setPreviews] = useState([]);
   const [isDragging, setIsDragging] = useState(false);
+
+  const [prevImages, setPrevImages] = useState([]);
 
   const imgInput = useRef(null);
 
   useEffect(() => {
     if (initImages && initImages.length > 0) {
       setPreviews(initImages);
+      setPrevImages(initImages);
     }
   }, [initImages]);
 
@@ -23,7 +26,7 @@ export default function ImageUploaderM({ label, onChangeFiles, initImages = [] }
     );
 
     setFiles(unique);
-    setPreviews(unique.map((file) => URL.createObjectURL(file)));
+    setPreviews([...previews, ...unique.map((file) => URL.createObjectURL(file))]);
 
     if (onChangeFiles) onChangeFiles(unique);
   };
@@ -32,6 +35,10 @@ export default function ImageUploaderM({ label, onChangeFiles, initImages = [] }
     const selected = Array.from(e.target.files).filter((file) =>
       file.type.startsWith("image/")
     );
+    if (limit > 0 && previews.length + selected.length > limit) {
+      alert(`이미지는 최대 ${limit}장까지 업로드 가능합니다.`);
+      return;
+    }
     if (selected.length) updateFiles(selected);
   };
 
@@ -50,6 +57,11 @@ export default function ImageUploaderM({ label, onChangeFiles, initImages = [] }
       file.type.startsWith("image/")
     );
 
+    if (limit > 0 && previews.length + dropped.length > limit) {
+      alert(`이미지는 최대 ${limit}장까지 업로드 가능합니다.`);
+      return;
+    }
+
     if (dropped.length) updateFiles(dropped);
   };
 
@@ -63,7 +75,7 @@ export default function ImageUploaderM({ label, onChangeFiles, initImages = [] }
 
   const resetAll = () => {
     setFiles([]);
-    setPreviews([]);
+    setPreviews([...prevImages]);
     imgInput.current.value = null;
     if (onChangeFiles) onChangeFiles([]);
   };
@@ -122,7 +134,7 @@ export default function ImageUploaderM({ label, onChangeFiles, initImages = [] }
           )}
 
           {/* 미리보기 이미지들 */}
-          <div className="grid grid-cols-3 md:grid-cols-5 gap-3 w-full">
+          <div className={`grid ${limit > 0 && limit < 3 ? 'grid-cols-2' : 'grid-cols-3 md:grid-cols-5'} gap-3 w-full`}>
             {previews.map((src, i) => (
               <div key={i} className="relative w-full">
                 <img
