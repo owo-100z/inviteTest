@@ -26,6 +26,7 @@ export const comm = {
   },
   api: async (url, { method = 'GET', params, body, headers, onUploadProgress } = {}) => {
     // 기본 URL 설정
+    comm.log(`API Call: ${method} ${url}`);
     let fullUrl = url.indexOf('http://') > -1 || url.indexOf('https://') > -1 ? url : apiBaseUrl + url;
 
     const loading = document.getElementById("loading-overlay");

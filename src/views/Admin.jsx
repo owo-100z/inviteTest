@@ -81,7 +81,7 @@ export default function Admin() {
 
         const url = `/wedding${isNewData ? '' : `/${user_idx}`}`;
         const method = isNewData ? 'POST' : 'PUT';
-        const body = {updateData};
+        const body = {data: updateData};
 
         const res = await comm.api(url, {method, body});
 
