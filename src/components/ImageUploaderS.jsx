@@ -1,11 +1,17 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
-export default function ImageUploaderSingle({ label, onChangeFile }) {
+export default function ImageUploaderSingle({ label, onChangeFile, initImage = null }) {
   const [file, setFile] = useState(null); // 단일 파일
   const [preview, setPreview] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
 
   const imgInput = useRef(null);
+
+  useEffect(() => {
+    if (initImage) {
+      setPreview(initImage);
+    }
+  }, [initImage]);
 
   const updateFile = (incomingFile) => {
     if (!incomingFile) return;
@@ -44,6 +50,13 @@ export default function ImageUploaderSingle({ label, onChangeFile }) {
     setFile(null);
     setPreview(null);
     imgInput.current.value = null;
+    if (onChangeFile) onChangeFile(null);
+  };
+
+  const removeInitImage = () => {
+    setFile(null);
+    setPreview(null);
+
     if (onChangeFile) onChangeFile(null);
   };
 

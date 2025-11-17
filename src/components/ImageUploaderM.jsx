@@ -1,11 +1,17 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
-export default function ImageUploaderM({ label, onChangeFiles }) {
+export default function ImageUploaderM({ label, onChangeFiles, initImages = [] }) {
   const [files, setFiles] = useState([]);
   const [previews, setPreviews] = useState([]);
   const [isDragging, setIsDragging] = useState(false);
 
   const imgInput = useRef(null);
+
+  useEffect(() => {
+    if (initImages && initImages.length > 0) {
+      setPreviews(initImages);
+    }
+  }, [initImages]);
 
   // 파일 업데이트 + 중복 제거
   const updateFiles = (incomingFiles) => {

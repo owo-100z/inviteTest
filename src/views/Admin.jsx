@@ -31,8 +31,8 @@ export default function Admin() {
     {
         intro: [],
         outro: [],
-        groom: [],
-        bride: [],
+        groom_img: [],
+        bride_img: [],
         gallery: [],
         deleted: [],    // 삭제할 사진들
     }
@@ -209,20 +209,24 @@ export default function Admin() {
                         <ImageUploaderS
                             label="인트로 이미지"
                             onChangeFile={(file) => { imageUpload(file, 'intro'); }}
+                            initImage={data?.intro?.at(0) || null}
                         />
                         <ImageUploaderS
                             label="아웃트로 이미지"
                             onChangeFile={(file) => { imageUpload(file, 'outro'); }}
+                            initImage={data?.outro?.at(0) || null}
                         />
                     </div>
                     <div className="flex gap-3">
                         <ImageUploaderS
                             label="신랑 프로필 이미지"
-                            onChangeFile={(file) => { imageUpload(file, 'groom'); }}
+                            onChangeFile={(file) => { imageUpload(file, 'groom_img'); }}
+                            initImage={data?.groom_img?.at(0) || null}
                         />
                         <ImageUploaderS
                             label="신부 프로필 이미지"
-                            onChangeFile={(file) => { imageUpload(file, 'bride'); }}
+                            onChangeFile={(file) => { imageUpload(file, 'bride_img'); }}
+                            initImage={data?.bride_img?.at(0) || null}
                         />
                     </div>
                     <div className="flex gap-3">
@@ -530,6 +534,7 @@ export default function Admin() {
                         onChangeFiles={(files) => {
                             imageUpload(files, 'gallery');
                         }}
+                        initImages={data?.gallery || []}
                     />
                     <button className="btn btn-outline w-full" onClick={saveWeddingData}>저장하기</button>
                 </div>
