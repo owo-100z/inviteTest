@@ -49,7 +49,7 @@ export default function Popup({ onClose, children, title="", full=true }) {
                     style={{ scrollbarWidth: 'none' }}
                     onClick={(e) => e.stopPropagation()}
                 >
-                    <div className="h-3 flex">
+                    <div className={`h-3 flex ${title ? '' : 'mt-5'}`}>
                         <div className="flex w-full h-full justify-end items-center gap-2">
                             {title && (
                                 <h2 className={`duration-300 ease-in w-full font-semibold pl-9 text-lg
