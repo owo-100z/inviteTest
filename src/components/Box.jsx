@@ -44,7 +44,7 @@ export default function Box({ children, idx = 0, title, className="", id }) {
             w-full h-full break-keep ${idx % 3 === 0 ? 'bg-base' : (idx % 3 === 1 ? 'bg-base-100/50' : 'bg-base-100')} ${className}`}>
             {title && (
                 <div className="px-4 py-10 flex justify-center">
-                    <p className="tracking-wider px-4 text-6xl font-loving">{title}</p>
+                    <p className="tracking-wider px-4 text-6xl font-ongle">{title}</p>
                 </div>
             )}
             { children }
