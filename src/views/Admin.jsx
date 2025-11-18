@@ -1,5 +1,4 @@
 import Layout from "@/components/layouts/AdminLayout"
-import Box from "@/components/Box"
 import { useEffect, useState } from "react";
 import DateTimePicker from "@/components/DateTimePicker";
 import BankSelect from "@/components/BankSelect";
@@ -8,7 +7,6 @@ import { MdArrowLeft, MdArrowRight } from "react-icons/md";
 import { FaCar, FaBus, FaTrain } from "react-icons/fa";
 import ImageUploaderM from "@/components/ImageUploaderM";
 import ImageUploaderS from "@/components/ImageUploaderS";
-import webpfy from "webpfy";
 
 const user_idx = 1;
 
@@ -42,6 +40,7 @@ export default function Admin() {
 
     const [uploadProgress, setUploadProgress] = useState(0);
     const [imageUploading, setImageUploading] = useState(false);
+    const [uploadText, setUploadText] = useState("이미지 업로드 중...");
 
     useEffect(() => {
         document.title = "관리자 페이지";
@@ -146,18 +145,7 @@ export default function Admin() {
 
             for (const file of files[type]) {
                 const formData = new FormData();
-
-                // formData.append(type, file);
-
-                const webp = await convertToWebp(file);
-
-                if (!webp) {
-                    comm.error(`* webp 변환 에러 [${type}] * ===> `, webp);
-                    setImageUploading(false);
-                    return {};
-                }
-
-                formData.append(type, webp.webpBlob, webp.fileName);
+                formData.append(type, file);
 
                 const res = await comm.api('/upload', {
                     method: 'POST',
@@ -227,23 +215,12 @@ export default function Admin() {
         });
     };
 
-    const convertToWebp = async (file) => {
-        const res = await webpfy({ image: file, quality: 75 })
-            .then((result) => {
-                // comm.log('웹피 변환 결과:', result);
-                return result;
-            }).catch((err) => {
-                return null;
-            });
-        return res;
-    }
-
     return (
         <Layout>
             {imageUploading && (
                 <div className="fixed inset-0 flex flex-col items-center justify-center bg-black/50 z-50">
                     <div className="bg-white p-6 rounded-lg shadow-lg w-80 text-center">
-                        <p className="mb-4 font-semibold">이미지 업로드 중...</p>
+                        <p className="mb-4 font-semibold">{uploadText}</p>
                         <div className="w-full bg-gray-200 rounded-full h-4 mb-4">
                             <div className="bg-blue-500 h-4 rounded-full transition-all duration-500" style={{ width: `${uploadProgress}%` }}></div>
                         </div>
