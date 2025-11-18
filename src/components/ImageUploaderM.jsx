@@ -1,6 +1,6 @@
 import React, { use, useEffect, useRef, useState } from "react";
 
-export default function ImageUploaderM({ label, onChangeFiles, initImages = [], limit = 0 }) {
+export default function ImageUploaderM({ label, onChangeFiles, initImages = [], limit = 0, onDeleteImage, type }) {
   const [files, setFiles] = useState([]);
   const [previews, setPreviews] = useState([]);
   const [isDragging, setIsDragging] = useState(false);
@@ -28,7 +28,7 @@ export default function ImageUploaderM({ label, onChangeFiles, initImages = [], 
     setFiles(unique);
     setPreviews([...previews, ...unique.map((file) => URL.createObjectURL(file))]);
 
-    if (onChangeFiles) onChangeFiles(unique);
+    if (onChangeFiles) onChangeFiles(unique, type);
   };
 
   const handleFileSelect = (e) => {
@@ -68,16 +68,41 @@ export default function ImageUploaderM({ label, onChangeFiles, initImages = [], 
   const removeFile = (index) => {
     const newFiles = files.filter((_, i) => i !== index);
     setFiles(newFiles);
-    setPreviews(newFiles.map((file) => URL.createObjectURL(file)));
 
-    if (onChangeFiles) onChangeFiles(newFiles);
+    const newPreviews = previews.filter((_, i) => i !== index);
+    setPreviews(newPreviews);
+
+    if (onChangeFiles) onChangeFiles(newFiles, type);
+    if (onDeleteImage) {
+      const prevImage = prevImages.find(img => img === previews[index]);
+      if (prevImage) {
+        onDeleteImage(prevImage, type);
+        setPrevImages(prevImages.filter(img => img !== previews[index]));
+      }
+    }
   };
 
   const resetAll = () => {
     setFiles([]);
-    setPreviews([...prevImages]);
+    if (prevImages.length > 0) {
+      if (confirm('기존 이미지도 모두 삭제하시겠습니까?')) {
+        prevImages.forEach(img => {
+          if (onDeleteImage) {
+            setTimeout(() => {
+              onDeleteImage(img, type);
+            }, 0);
+          }
+        });
+        setPrevImages([]);
+        setPreviews([]);
+      } else {
+        setPreviews([...prevImages]);
+      }
+    } else {
+      setPreviews([]);
+    }
     imgInput.current.value = null;
-    if (onChangeFiles) onChangeFiles([]);
+    if (onChangeFiles) onChangeFiles([], type);
   };
 
   const imagePreview = (src) => {
@@ -94,7 +119,7 @@ export default function ImageUploaderM({ label, onChangeFiles, initImages = [], 
       <div className="flex flex-col gap-4 w-full max-w-xl mx-auto">
         <div className="flex justify-between items-center h-8">
           {label && <label className="font-semibold text-sm opacity-70">{label}</label>}
-          {files.length > 0 && (
+          {previews.length > 0 && (
             <button
               onClick={resetAll}
               className="btn btn-sm font-semibold bg-red-400 text-white self-end"

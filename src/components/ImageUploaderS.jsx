@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 
-export default function ImageUploaderSingle({ label, onChangeFile, initImage = null }) {
+export default function ImageUploaderSingle({ label, onChangeFile, initImage = null, onDeleteImage, type }) {
   const [file, setFile] = useState(null); // 단일 파일
   const [preview, setPreview] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
@@ -19,7 +19,7 @@ export default function ImageUploaderSingle({ label, onChangeFile, initImage = n
     setFile(incomingFile);
     setPreview(URL.createObjectURL(incomingFile));
 
-    if (onChangeFile) onChangeFile(incomingFile);
+    if (onChangeFile) onChangeFile(incomingFile, type);
   };
 
   const handleFileSelect = (e) => {
@@ -50,14 +50,10 @@ export default function ImageUploaderSingle({ label, onChangeFile, initImage = n
     setFile(null);
     setPreview(null);
     imgInput.current.value = null;
-    if (onChangeFile) onChangeFile(null);
-  };
-
-  const removeInitImage = () => {
-    setFile(null);
-    setPreview(null);
-
-    if (onChangeFile) onChangeFile(null);
+    if (onChangeFile) onChangeFile(null, type);
+    if (onDeleteImage && preview) {
+      onDeleteImage(preview, type);
+    }
   };
 
   const imagePreview = (src) => {
@@ -73,7 +69,7 @@ export default function ImageUploaderSingle({ label, onChangeFile, initImage = n
     <div className="flex flex-col gap-4 w-full max-w-xl mx-auto">
         <div className="flex justify-between items-center h-8">
             {label && <label className="font-semibold text-sm opacity-70">{label}</label>}
-            {file && (
+            {preview && (
             <button
                 onClick={removeFile}
                 className="btn btn-sm font-semibold bg-red-400 text-white self-end"

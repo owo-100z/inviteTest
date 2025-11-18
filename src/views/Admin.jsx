@@ -87,6 +87,17 @@ export default function Admin() {
                     });
                     imgRes.data.gallery = galleryImgs;
                 }
+
+                const introImgs = data.intro ? [...data.intro] : [];
+                if (imgRes.data.intro) {
+                    imgRes.data.intro.forEach((imgUrl) => {
+                        if (!introImgs.includes(imgUrl)) {
+                            introImgs.push(imgUrl);
+                        }
+                    });
+                    imgRes.data.intro = introImgs;
+                }
+                
                 Object.assign(updateData, imgRes.data);
             }
         }
@@ -141,7 +152,7 @@ export default function Admin() {
                     body: formData,
                     onUploadProgress: (progressEvent) => {
                         const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-                        comm.log(`이미지 업로드 진행률: ${percentCompleted}%`);
+                        // comm.log(`이미지 업로드 진행률: ${percentCompleted}%`);
                         setUploadProgress(((uploadedCnt + (percentCompleted / 100)) / cnt) * 100);
                     }
                 });
@@ -149,12 +160,13 @@ export default function Admin() {
                 // comm.log('개별 업로드 결과:', res);
                 if (res.status === 'success') {
                     // comm.log(`업로드된 이미지들 [${type}]:`, res.data);
-                    if (type === 'gallery') result.data[type] = result.data[type] ? [...result.data[type], ...res.data[type]] : res.data[type];
+                    if (type === 'intro' || type === 'gallery') result.data[type] = result.data[type] ? [...result.data[type], ...res.data[type]] : res.data[type];
                     else if (res.data[type]) result.data[type] = res.data[type];
 
                     uploadedCnt++;
                 } else {
                     comm.error(`* 이미지 업로드 에러 [${type}] * ===> `, res);
+                    setImageUploading(false);
                     return res;
                 }
             }
@@ -178,11 +190,35 @@ export default function Admin() {
 
         const uploadedImages = data[type] ? [...data[type]] : [];
 
-        if (type !== 'gallery' && uploadedImages.length > 0) {
+        if (type !== 'intro' && type !== 'gallery' && uploadedImages.length > 0) {
             // 단일 이미지인 경우 기존 이미지를 대체
             const newPhotos = { ...newImages, deleted: [...newImages.deleted || [], uploadedImages[0]] };
             setPhotos(newPhotos);
         }
+    }
+
+    const deleteImg = (imgUrl, type) => {
+        setPhotos(prev => {
+            const newDeleted = prev.deleted ? [...prev.deleted, imgUrl] : [imgUrl];
+            return {
+                ...prev,
+                deleted: newDeleted
+            };
+        });
+
+        setData(prev => {
+            const newImgs = prev[type] ? prev[type].filter(img => img !== imgUrl) : [];
+            return {
+                ...prev,
+                [type]: newImgs
+            };
+        });
+    };
+
+
+    const test = () => {
+        comm.log('현재 사진 상태:', photos);
+        comm.log('현재 데이터 상태:', data);
     }
 
     return (
@@ -208,26 +244,34 @@ export default function Admin() {
                     <div className="flex gap-3">
                         <ImageUploaderM
                             label="인트로 이미지"
-                            onChangeFiles={(files) => { imageUpload(files, 'intro'); }}
+                            type="intro"
+                            onChangeFiles={imageUpload}
                             initImages={data?.intro || []}
+                            onDeleteImage={deleteImg}
                             limit={2}
                         />
                         <ImageUploaderS
                             label="아웃트로 이미지"
-                            onChangeFile={(file) => { imageUpload(file, 'outro'); }}
+                            type="outro"
+                            onChangeFile={imageUpload}
                             initImage={data?.outro?.at(0) || null}
+                            onDeleteImage={deleteImg}
                         />
                     </div>
                     <div className="flex gap-3">
                         <ImageUploaderS
                             label="신랑 프로필 이미지"
-                            onChangeFile={(file) => { imageUpload(file, 'groom_img'); }}
+                            type="groom_img"
+                            onChangeFile={imageUpload}
                             initImage={data?.groom_img?.at(0) || null}
+                            onDeleteImage={deleteImg}
                         />
                         <ImageUploaderS
                             label="신부 프로필 이미지"
-                            onChangeFile={(file) => { imageUpload(file, 'bride_img'); }}
+                            type="bride_img"
+                            onChangeFile={imageUpload}
                             initImage={data?.bride_img?.at(0) || null}
+                            onDeleteImage={deleteImg}
                         />
                     </div>
                     <div className="flex gap-3">
@@ -532,11 +576,12 @@ export default function Admin() {
                     </fieldset>
                     <ImageUploaderM
                         label="갤러리 이미지 업로드"
-                        onChangeFiles={(files) => {
-                            imageUpload(files, 'gallery');
-                        }}
+                        type="gallery"
+                        onChangeFiles={imageUpload}
                         initImages={data?.gallery || []}
+                        onDeleteImage={deleteImg}
                     />
+                    <button className="btn btn-outline w-full" onClick={test}>사진 상태 확인</button>
                     <button className="btn btn-outline w-full" onClick={saveWeddingData}>저장하기</button>
                 </div>
             </div>
