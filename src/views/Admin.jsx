@@ -228,7 +228,7 @@ export default function Admin() {
     };
 
     const convertToWebp = async (file) => {
-        const res = await webpfy({ image: file })
+        const res = await webpfy({ image: file, quality: 75 })
             .then((result) => {
                 // comm.log('웹피 변환 결과:', result);
                 return result;
