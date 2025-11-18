@@ -7,8 +7,10 @@ export default function Cover({ wedding_data, imgUrl }) {
     const day = wedding_date?.format('MMM D, YYYY');
     const time = wedding_date?.format('ddd · hh:mm A');
 
-    const img1 = imgUrl.split(',')[0];
-    const img2 = imgUrl.split(',')[1];
+    const introImage = wedding_data?.intro?.join(',') || imgUrl;
+
+    const img1 = introImage.split(',')[0];
+    const img2 = introImage.split(',')[1];
 
     const [showText, setShowText] = useState(false);
 

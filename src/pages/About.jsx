@@ -19,8 +19,8 @@ export default function About({ wedding_data }) {
         m_tel: wedding_data?.bride_m_tel || wedding_data?.bride_tel,
     }
 
-    const groom_img = "https://hellomybrand.com/wed/images/sample/cover/seoul-1.jpg";
-    const bride_img = "https://hellomybrand.com/wed/images/sample/cover/seoul-2.jpg";
+    const groom_img = wedding_data.groom_img || "https://hellomybrand.com/wed/images/sample/cover/seoul-1.jpg";
+    const bride_img = wedding_data.bride_img || "https://hellomybrand.com/wed/images/sample/cover/seoul-2.jpg";
 
     const introduction = wedding_data?.introduction?.split('\n');
 

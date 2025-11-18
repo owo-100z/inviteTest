@@ -8,6 +8,7 @@ import { MdArrowLeft, MdArrowRight } from "react-icons/md";
 import { FaCar, FaBus, FaTrain } from "react-icons/fa";
 import ImageUploaderM from "@/components/ImageUploaderM";
 import ImageUploaderS from "@/components/ImageUploaderS";
+import webpfy from "webpfy";
 
 const user_idx = 1;
 
@@ -145,7 +146,18 @@ export default function Admin() {
 
             for (const file of files[type]) {
                 const formData = new FormData();
-                formData.append(type, file);
+
+                // formData.append(type, file);
+
+                const webp = await convertToWebp(file);
+
+                if (!webp) {
+                    comm.error(`* webp 변환 에러 [${type}] * ===> `, webp);
+                    setImageUploading(false);
+                    return {};
+                }
+
+                formData.append(type, webp.webpBlob, webp.fileName);
 
                 const res = await comm.api('/upload', {
                     method: 'POST',
@@ -177,7 +189,7 @@ export default function Admin() {
         return result;
     }
 
-    const imageUpload = (files, type) => {
+    const imageUpload = async (files, type) => {
         if (!files) return;
 
         if (!Array.isArray(files)) {
@@ -214,6 +226,17 @@ export default function Admin() {
             };
         });
     };
+
+    const convertToWebp = async (file) => {
+        const res = await webpfy({ image: file })
+            .then((result) => {
+                // comm.log('웹피 변환 결과:', result);
+                return result;
+            }).catch((err) => {
+                return null;
+            });
+        return res;
+    }
 
     return (
         <Layout>
