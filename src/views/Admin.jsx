@@ -144,6 +144,7 @@ export default function Admin() {
             if (type === 'deleted') continue;
 
             for (const file of files[type]) {
+                setUploadText('이미지 업로드 중 ...');
                 const formData = new FormData();
                 formData.append(type, file);
 
@@ -153,6 +154,7 @@ export default function Admin() {
                     onUploadProgress: (progressEvent) => {
                         const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
                         // comm.log(`이미지 업로드 진행률: ${percentCompleted}%`);
+                        if (percentCompleted === 100) setUploadText('이미지 압축 진행 중 ...');
                         setUploadProgress(((uploadedCnt + (percentCompleted / 100)) / cnt) * 100);
                     }
                 });
