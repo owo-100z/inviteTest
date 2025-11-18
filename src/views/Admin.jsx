@@ -215,12 +215,6 @@ export default function Admin() {
         });
     };
 
-
-    const test = () => {
-        comm.log('현재 사진 상태:', photos);
-        comm.log('현재 데이터 상태:', data);
-    }
-
     return (
         <Layout>
             {imageUploading && (
@@ -581,7 +575,6 @@ export default function Admin() {
                         initImages={data?.gallery || []}
                         onDeleteImage={deleteImg}
                     />
-                    <button className="btn btn-outline w-full" onClick={test}>사진 상태 확인</button>
                     <button className="btn btn-outline w-full" onClick={saveWeddingData}>저장하기</button>
                 </div>
             </div>

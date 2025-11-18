@@ -49,7 +49,7 @@ export default function Test() {
             <Box idx={0}> <LocationMap wedding_data={data} /> </Box>
             <Box idx={0}> <Directions wedding_data={data} /> </Box>
             <Box id="notice" idx={0}> <Notice wedding_data={data} /> </Box>
-            <Box id="gallery" idx={1} title="Gallery"> <Gallery /> </Box>
+            <Box id="gallery" idx={1} title="Gallery"> <Gallery wedding_data={data} /> </Box>
             <Box id="message" idx={2} title="Message"> <Message /> </Box>
             <Box id="account" idx={0}> <Account wedding_data={data} /> </Box>
             <Ending imgUrl="https://hellomybrand.com/wed/images/sample/cover/wm/martinique.jpg"/>

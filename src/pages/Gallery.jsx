@@ -2,44 +2,46 @@ import React, { useState, useEffect } from 'react';
 import { MdArrowLeft, MdArrowRight } from "react-icons/md";
 import Gallery_P from './Gallery_P';
 
-export default function Gallery() {
+export default function Gallery({ wedding_data }) {
     const [imgIndex, setImgIndex] = useState(0);
     const [images, setImages] = useState([]);
     const [fade, setFade] = useState(false);
 
     useEffect(() => {
         // 실제 이미지 URL로 교체 필요
-        const fetchedImages = [
-            'https://hellomybrand.com/wed/images/sample/cover/seoul-1.jpg',
-            'https://hellomybrand.com/wed/images/sample/cover/seoul-2.jpg',
-            'https://hellomybrand.com/wed/images/sample/cover/wm/martinique.jpg',
-            'https://hellomybrand.com/wed/images/sample/cover/wm/newyork.jpg',
-            'https://hellomybrand.com/wed/images/sample/cover/seoul-2.jpg',
-            'https://hellomybrand.com/wed/images/sample/cover/seoul-1.jpg',
-            'https://hellomybrand.com/wed/images/sample/cover/seoul-1.jpg',
-            'https://hellomybrand.com/wed/images/sample/cover/wm/newyork.jpg',
-            'https://hellomybrand.com/wed/images/sample/cover/seoul-1.jpg',
-            'https://hellomybrand.com/wed/images/sample/cover/wm/martinique.jpg',
-            'https://hellomybrand.com/wed/images/sample/cover/wm/newyork.jpg',
-            'https://hellomybrand.com/wed/images/sample/cover/seoul-1.jpg',
-            'https://hellomybrand.com/wed/images/sample/cover/seoul-1.jpg',
-            'https://hellomybrand.com/wed/images/sample/cover/seoul-2.jpg',
-            'https://hellomybrand.com/wed/images/sample/cover/wm/martinique.jpg',
-            'https://hellomybrand.com/wed/images/sample/cover/wm/newyork.jpg',
-            'https://hellomybrand.com/wed/images/sample/cover/seoul-2.jpg',
-            'https://hellomybrand.com/wed/images/sample/cover/seoul-1.jpg',
-            'https://hellomybrand.com/wed/images/sample/cover/seoul-1.jpg',
-            'https://hellomybrand.com/wed/images/sample/cover/wm/newyork.jpg',
-            'https://hellomybrand.com/wed/images/sample/cover/seoul-1.jpg',
-            'https://hellomybrand.com/wed/images/sample/cover/wm/martinique.jpg',
-            'https://hellomybrand.com/wed/images/sample/cover/wm/newyork.jpg',
-            'https://hellomybrand.com/wed/images/sample/cover/seoul-1.jpg',
-        ];
+        // const fetchedImages = [
+        //     'https://hellomybrand.com/wed/images/sample/cover/seoul-1.jpg',
+        //     'https://hellomybrand.com/wed/images/sample/cover/seoul-2.jpg',
+        //     'https://hellomybrand.com/wed/images/sample/cover/wm/martinique.jpg',
+        //     'https://hellomybrand.com/wed/images/sample/cover/wm/newyork.jpg',
+        //     'https://hellomybrand.com/wed/images/sample/cover/seoul-2.jpg',
+        //     'https://hellomybrand.com/wed/images/sample/cover/seoul-1.jpg',
+        //     'https://hellomybrand.com/wed/images/sample/cover/seoul-1.jpg',
+        //     'https://hellomybrand.com/wed/images/sample/cover/wm/newyork.jpg',
+        //     'https://hellomybrand.com/wed/images/sample/cover/seoul-1.jpg',
+        //     'https://hellomybrand.com/wed/images/sample/cover/wm/martinique.jpg',
+        //     'https://hellomybrand.com/wed/images/sample/cover/wm/newyork.jpg',
+        //     'https://hellomybrand.com/wed/images/sample/cover/seoul-1.jpg',
+        //     'https://hellomybrand.com/wed/images/sample/cover/seoul-1.jpg',
+        //     'https://hellomybrand.com/wed/images/sample/cover/seoul-2.jpg',
+        //     'https://hellomybrand.com/wed/images/sample/cover/wm/martinique.jpg',
+        //     'https://hellomybrand.com/wed/images/sample/cover/wm/newyork.jpg',
+        //     'https://hellomybrand.com/wed/images/sample/cover/seoul-2.jpg',
+        //     'https://hellomybrand.com/wed/images/sample/cover/seoul-1.jpg',
+        //     'https://hellomybrand.com/wed/images/sample/cover/seoul-1.jpg',
+        //     'https://hellomybrand.com/wed/images/sample/cover/wm/newyork.jpg',
+        //     'https://hellomybrand.com/wed/images/sample/cover/seoul-1.jpg',
+        //     'https://hellomybrand.com/wed/images/sample/cover/wm/martinique.jpg',
+        //     'https://hellomybrand.com/wed/images/sample/cover/wm/newyork.jpg',
+        //     'https://hellomybrand.com/wed/images/sample/cover/seoul-1.jpg',
+        // ];
+
+        const fetchedImages = wedding_data?.gallery || [];
 
         fetchedImages.sort(() => Math.random() - 0.5); // 랜덤 섞기
 
         setImages(fetchedImages);
-    }, []);
+    }, [wedding_data]);
 
     const gallery_popup = (index = 0) => {
         pop_open(<Gallery_P index={index} images={images} chgIndex={chgIndex} />);
