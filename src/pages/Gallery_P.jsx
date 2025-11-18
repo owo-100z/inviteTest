@@ -45,7 +45,7 @@ export default function Gallery_P({ index = 0, images = [], chgIndex = () => {} 
             <div className="absolute w-full flex justify-start items-center -my-6 z-10">
                 <span>{pIdx+1} / {images.length}</span>
             </div>
-            <div className="carousel h-[80svh] w-full bg-white" ref={containerRef}>
+            <div className="carousel h-full w-full bg-white" ref={containerRef}>
                 {images.length > 0 ? images.map((src, i) => (
                     <div key={`slide-${i}`} id={`slide${i+1}`} className="carousel-item relative w-full h-full">
                         <img src={src} className="object-contain bg-white" />

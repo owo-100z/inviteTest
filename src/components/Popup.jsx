@@ -64,7 +64,7 @@ export default function Popup({ onClose, children, title="", full=true }) {
                         </div>
                     </div>
                     {title && <div data-orientation="horizontal" role="none" className="shrink-0 h-[1px] w-full my-5 bg-black opacity-10" />}
-                    <div className={`duration-300 ease-in
+                    <div className={`duration-300 ease-in w-full h-[90%]
                         ${showPopup ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5" }`}
                     >
                         {children}
