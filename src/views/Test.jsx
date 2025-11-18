@@ -52,7 +52,7 @@ export default function Test() {
             <Box id="gallery" idx={1} title="Gallery"> <Gallery wedding_data={data} /> </Box>
             <Box id="message" idx={2} title="Message"> <Message /> </Box>
             <Box id="account" idx={0}> <Account wedding_data={data} /> </Box>
-            <Ending imgUrl="https://hellomybrand.com/wed/images/sample/cover/wm/martinique.jpg"/>
+            <Ending wedding_data={data} imgUrl="https://hellomybrand.com/wed/images/sample/cover/wm/martinique.jpg"/>
         </Layout>
     )
 }

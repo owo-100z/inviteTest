@@ -577,6 +577,10 @@ export default function Admin() {
                         initImages={data?.gallery || []}
                         onDeleteImage={deleteImg}
                     />
+                    <fieldset className="fieldset text-start">
+                        <legend className="fieldset-legend opacity-70 font-semibold text-sm">엔딩문구</legend>
+                        <textarea className="textarea h-30 bg-white w-full" autoComplete="off" placeholder="메시지를 작성해 주세요" value={data?.ending || ''} onChange={(e) => {setData({...data, ending: e.target.value})}}></textarea>
+                    </fieldset>
                     <button className="btn btn-outline w-full" onClick={saveWeddingData}>저장하기</button>
                 </div>
             </div>
