@@ -96,7 +96,7 @@ export default function About({ wedding_data }) {
                 <p className="tracking-wider px-4 text-xl font-ongle">함께한 지 <strong className="bride-color">{loving}</strong>일💕</p>
             </div>
             <div className="my-4 w-full px-4 flex justify-center items-stretch gap-2">
-                <div className="flex-col flex">
+                <div className="flex-col flex w-[50%]">
                     <div className="flex flex-col items-center bg-white rounded-xl shadow-md p-4 space-y-4 w-full h-full text-sm">
                         <div className="w-full h-auto aspect-square overflow-hidden rounded-xl shadow-md relative">
                             <img className="rounded-sm object-cover w-full h-full" loading="lazy" decoding="async" data-nimg="fill" src={groom_img} alt="신랑 이미지" />
@@ -113,7 +113,7 @@ export default function About({ wedding_data }) {
                         </div>
                     </div>
                 </div>
-                <div className="flex-col flex">
+                <div className="flex-col flex w-[50%]">
                     <div className="flex flex-col items-center bg-white rounded-xl shadow-md p-4 space-y-4 w-full h-full text-sm">
                         <div className="w-full h-auto aspect-square overflow-hidden rounded-xl shadow-md relative">
                             <img className="rounded-sm object-cover w-full h-full" loading="lazy" decoding="async" data-nimg="fill" src={bride_img} alt="신부 이미지" />
