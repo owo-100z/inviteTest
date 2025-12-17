@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import imageCompression from "browser-image-compression";
 
 export default function ImageUploaderSingle({ label, onChangeFile, initImage = null, onDeleteImage, type }) {
   const [file, setFile] = useState(null); // 단일 파일
@@ -9,18 +10,40 @@ export default function ImageUploaderSingle({ label, onChangeFile, initImage = n
 
   useEffect(() => {
     if (initImage) {
-      setPreview(initImage);
+      const thumb = {
+        origin: initImage,
+        thumbURL: initImage.replace(/(\.\w+)?$/, '_thumb$1') // 썸네일 URL 생성 로직 예시
+      }
+      setPreview(thumb);
     }
   }, [initImage]);
 
-  const updateFile = (incomingFile) => {
+  const updateFile = async (incomingFile) => {
     if (!incomingFile) return;
 
+    const thumb = await makePreviews(incomingFile);
+
     setFile(incomingFile);
-    setPreview(URL.createObjectURL(incomingFile));
+    setPreview(thumb);
 
     if (onChangeFile) onChangeFile(incomingFile, type);
   };
+
+  // 이미지 preview 만들기
+  const makePreviews = async (file) => {
+    const thumb = await imageCompression(file, {
+      maxWidthOrHeight: 300,
+      initialQuality: 0.7,
+      useWebWorker: true,
+    })
+
+    const thumbURL = URL.createObjectURL(thumb);
+
+    return {
+      origin: file,
+      thumbURL: thumbURL
+    }
+  }
 
   const handleFileSelect = (e) => {
     const selected = e.target.files[0];
@@ -57,9 +80,10 @@ export default function ImageUploaderSingle({ label, onChangeFile, initImage = n
   };
 
   const imagePreview = (src) => {
+    const imgURL = typeof src === 'string' ? src : URL.createObjectURL(src);
     pop_open(
       <div className="p-4 justify-center flex">
-        <img src={src} className="max-w-full max-h-[80vh]" alt="" />
+        <img src={imgURL} className="max-w-full max-h-[80vh]" alt="" />
       </div>,
       "이미지 미리보기", false
     );
@@ -104,10 +128,12 @@ export default function ImageUploaderSingle({ label, onChangeFile, initImage = n
                 </div>
             ) : (
                 <img
-                    src={preview}
+                    src={preview.thumbURL}
+                    loading="lazy"
+                    decoding="async"
                     onClick={(e) => {
                         e.stopPropagation();
-                        imagePreview(preview);
+                        imagePreview(preview.origin);
                     }}
                     className="w-full object-cover rounded-md border cursor-pointer"
                     alt=""

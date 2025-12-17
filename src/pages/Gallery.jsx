@@ -53,7 +53,12 @@ export default function Gallery({ wedding_data }) {
             )}
             <div className={`grid grid-cols-3 gap-1 duration-300 ease-initial ${fade ? 'opacity-0' : 'opacity-100'}`}>
                 {images.length > 0 ? images.slice(0 + (9 * imgIndex), 9 + (9 * imgIndex)).map((src, i) => (
-                    <img key={`img-${i}`} src={src} alt={`Gallery ${i+1}`} className="w-full h-32 object-cover rounded-sm transition-transform duration-300 hover:scale-110 cursor-pointer"
+                    <img key={`img-${i}`}
+                        src={src.replace(/(\.\w+)?$/, '_thumb$1')}
+                        loading="lazy"
+                        decoding="async"
+                        alt={`Gallery ${i+1}`}
+                        className="w-full h-32 object-cover rounded-sm transition-transform duration-300 hover:scale-110 cursor-pointer"
                         onClick={() => gallery_popup(i + (9 * imgIndex))}
                     />
                 )) : (

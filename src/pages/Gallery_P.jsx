@@ -48,7 +48,12 @@ export default function Gallery_P({ index = 0, images = [], chgIndex = () => {} 
             <div className="carousel h-full w-full bg-white" ref={containerRef}>
                 {images.length > 0 ? images.map((src, i) => (
                     <div key={`slide-${i}`} id={`slide${i+1}`} className="carousel-item relative w-full h-full">
-                        <img src={src} className="object-contain bg-white" />
+                        <img 
+                            src={src}
+                            loading="lazy"
+                            decoding="async"
+                            className="object-contain bg-white"
+                        />
                         <div className="absolute left-1 right-1 top-1/2 flex -translate-y-1/2 transform justify-between h-full">
                             <a href={`#slide${i === 0 ? 0 : i}`} className="w-15 h-full content-center text-start">❮</a>
                             <div className='w-full' onClick={() => {pop_close();}}></div>

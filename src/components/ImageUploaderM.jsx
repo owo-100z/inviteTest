@@ -1,4 +1,5 @@
 import React, { use, useEffect, useRef, useState } from "react";
+import imageCompression from "browser-image-compression";
 
 export default function ImageUploaderM({ label, onChangeFiles, initImages = [], limit = 0, onDeleteImage, type }) {
   const [files, setFiles] = useState([]);
@@ -11,13 +12,18 @@ export default function ImageUploaderM({ label, onChangeFiles, initImages = [], 
 
   useEffect(() => {
     if (initImages && initImages.length > 0) {
-      setPreviews(initImages);
-      setPrevImages(initImages);
+      const thumbs = initImages.map((img) => ({
+        origin: img,
+        thumbURL: img.replace(/(\.\w+)?$/, '_thumb$1') // 썸네일 URL 생성 로직 예시
+      }));
+
+      setPreviews(thumbs);
+      setPrevImages(thumbs);
     }
   }, [initImages]);
 
   // 파일 업데이트 + 중복 제거
-  const updateFiles = (incomingFiles) => {
+  const updateFiles = async (incomingFiles) => {
     const combined = [...files, ...incomingFiles];
 
     const unique = combined.filter(
@@ -25,11 +31,29 @@ export default function ImageUploaderM({ label, onChangeFiles, initImages = [], 
         idx === self.findIndex((f) => f.name === file.name && f.size === file.size)
     );
 
+    const thumbs = await Promise.all(unique.map((file) => makePreviews(file)));
+
     setFiles(unique);
-    setPreviews([...previews, ...unique.map((file) => URL.createObjectURL(file))]);
+    setPreviews([...previews, ...thumbs]);
 
     if (onChangeFiles) onChangeFiles(unique, type);
   };
+
+  // 이미지 preview 만들기
+  const makePreviews = async (file) => {
+    const thumb = await imageCompression(file, {
+      maxWidthOrHeight: 300,
+      initialQuality: 0.7,
+      useWebWorker: true,
+    })
+
+    const thumbURL = URL.createObjectURL(thumb);
+
+    return {
+      origin: file,
+      thumbURL: thumbURL
+    }
+  }
 
   const handleFileSelect = (e) => {
     const selected = Array.from(e.target.files).filter((file) =>
@@ -74,10 +98,10 @@ export default function ImageUploaderM({ label, onChangeFiles, initImages = [], 
 
     if (onChangeFiles) onChangeFiles(newFiles, type);
     if (onDeleteImage) {
-      const prevImage = prevImages.find(img => img === previews[index]);
+      const prevImage = prevImages.find(img => img.origin === previews[index].origin);
       if (prevImage) {
-        onDeleteImage(prevImage, type);
-        setPrevImages(prevImages.filter(img => img !== previews[index]));
+        onDeleteImage(prevImage.origin, type);
+        setPrevImages(prevImages.filter(img => img.origin !== previews[index].origin));
       }
     }
   };
@@ -106,9 +130,10 @@ export default function ImageUploaderM({ label, onChangeFiles, initImages = [], 
   };
 
   const imagePreview = (src) => {
+    const imgURL = typeof src === 'string' ? src : URL.createObjectURL(src);
     pop_open(
       <div className="p-4 justify-center flex">
-        <img src={src} className="max-w-full max-h-[80vh]" alt="" />
+        <img src={imgURL} className="max-w-full max-h-[80vh]" alt="" />
       </div>,
       "이미지 미리보기", false
     );
@@ -163,11 +188,13 @@ export default function ImageUploaderM({ label, onChangeFiles, initImages = [], 
             {previews.map((src, i) => (
               <div key={i} className="relative w-full">
                 <img
-                  src={src}
+                  src={src.thumbURL}
+                  loading="lazy"
+                  decoding="async"
                   className="w-full object-cover rounded-md border cursor-pointer"
                   onClick={(e) => {
                     e.stopPropagation();
-                    imagePreview(src);
+                    imagePreview(src.origin);
                   }}
                   alt=""
                 />
