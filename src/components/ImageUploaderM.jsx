@@ -6,6 +6,10 @@ export default function ImageUploaderM({ label, onChangeFiles, initImages = [], 
   const [previews, setPreviews] = useState([]);
   const [isDragging, setIsDragging] = useState(false);
 
+  const [imageUploading, setImageUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [uploadText, setUploadText] = useState("이미지 등록 중...");
+
   const [prevImages, setPrevImages] = useState([]);
 
   const imgInput = useRef(null);
@@ -31,7 +35,18 @@ export default function ImageUploaderM({ label, onChangeFiles, initImages = [], 
         idx === self.findIndex((f) => f.name === file.name && f.size === file.size)
     );
 
-    const thumbs = await Promise.all(unique.map((file) => makePreviews(file)));
+    const uploadingFiles = incomingFiles.filter(file =>
+      !files.some(f => f.name === file.name && f.size === file.size)
+    );
+
+    const uploadingCount = uploadingFiles.length;
+
+    setUploadText(`이미지 ${uploadingCount}개 등록 중...`);
+
+    setImageUploading(true);
+    setUploadProgress(0);
+    const thumbs = await Promise.all(uploadingFiles.map((file) => makePreviews(file, uploadingCount)));
+    setImageUploading(false);
 
     setFiles(unique);
     setPreviews([...previews, ...thumbs]);
@@ -40,7 +55,7 @@ export default function ImageUploaderM({ label, onChangeFiles, initImages = [], 
   };
 
   // 이미지 preview 만들기
-  const makePreviews = async (file) => {
+  const makePreviews = async (file, uploadingFiles) => {
     const thumb = await imageCompression(file, {
       maxWidthOrHeight: 300,
       initialQuality: 0.7,
@@ -48,6 +63,8 @@ export default function ImageUploaderM({ label, onChangeFiles, initImages = [], 
     })
 
     const thumbURL = URL.createObjectURL(thumb);
+
+    setUploadProgress((prev) => prev + (100 / uploadingFiles));
 
     return {
       origin: file,
@@ -141,6 +158,17 @@ export default function ImageUploaderM({ label, onChangeFiles, initImages = [], 
 
   return (
     <>
+      {imageUploading && (
+          <div className="fixed inset-0 flex flex-col items-center justify-center bg-black/50 z-50">
+              <div className="bg-white p-6 rounded-lg shadow-lg w-80 text-center">
+                  <p className="mb-4 font-semibold">{uploadText}</p>
+                  <div className="w-full bg-gray-200 rounded-full h-4 mb-4">
+                      <div className="bg-blue-500 h-4 rounded-full transition-all duration-500" style={{ width: `${uploadProgress}%` }}></div>
+                  </div>
+                  <p>{Math.round(uploadProgress)}%</p>
+              </div>
+          </div>
+      )}
       <div className="flex flex-col gap-4 w-full max-w-xl mx-auto">
         <div className="flex justify-between items-center h-8">
           {label && <label className="font-semibold text-sm opacity-70">{label}</label>}
