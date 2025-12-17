@@ -45,11 +45,14 @@ export default function ImageUploaderM({ label, onChangeFiles, initImages = [], 
 
     setImageUploading(true);
     setUploadProgress(0);
-    const thumbs = await Promise.all(uploadingFiles.map((file) => makePreviews(file, uploadingCount)));
+
+    for (let i=0; i<uploadingFiles.length; i++) {
+      const thumb = await makePreviews(uploadingFiles[i], uploadingCount);
+      setPreviews((prev) => [...prev, thumb]);
+    }
     setImageUploading(false);
 
     setFiles(unique);
-    setPreviews([...previews, ...thumbs]);
 
     if (onChangeFiles) onChangeFiles(unique, type);
   };
