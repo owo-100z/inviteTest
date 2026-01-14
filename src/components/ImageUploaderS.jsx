@@ -1,10 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
 import imageCompression from "browser-image-compression";
 
-export default function ImageUploaderSingle({ label, onChangeFile, initImage = null, onDeleteImage, type }) {
+import ImageCropModal from "./ImageCropModal";
+import { getCroppedImage } from "./cropImage.js";
+
+export default function ImageUploaderSingle({ label, onChangeFile, initImage = null, onDeleteImage, type, crop = false }) {
   const [file, setFile] = useState(null); // 단일 파일
   const [preview, setPreview] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [cropImage, setCropImage] = useState(null);
 
   const imgInput = useRef(null);
 
@@ -48,7 +52,11 @@ export default function ImageUploaderSingle({ label, onChangeFile, initImage = n
   const handleFileSelect = (e) => {
     const selected = e.target.files[0];
     if (selected && selected.type.startsWith("image/")) {
-      updateFile(selected);
+      if (crop) {
+        setCropImage(URL.createObjectURL(selected));
+      } else {
+        updateFile(selected);
+      }
     }
   };
 
@@ -65,8 +73,18 @@ export default function ImageUploaderSingle({ label, onChangeFile, initImage = n
 
     const dropped = e.dataTransfer.files[0];
     if (dropped && dropped.type.startsWith("image/")) {
-      updateFile(dropped);
+      if (crop) {
+        setCropImage(URL.createObjectURL(dropped));
+      } else {
+        updateFile(dropped);
+      }
     }
+  };
+
+  const handleCropConfirm = async (croppedAreaPixels) => {
+    const croppedFile = await getCroppedImage(cropImage, croppedAreaPixels);
+    updateFile(croppedFile);
+    setCropImage(null);
   };
 
   const removeFile = () => {
@@ -90,56 +108,65 @@ export default function ImageUploaderSingle({ label, onChangeFile, initImage = n
   }
 
   return (
-    <div className="flex flex-col gap-4 w-full max-w-xl mx-auto">
-        <div className="flex justify-between items-center h-8">
-            {label && <label className="font-semibold text-sm opacity-70">{label}</label>}
-            {preview && (
-            <button
-                onClick={removeFile}
-                className="btn btn-sm font-semibold bg-red-400 text-white self-end"
-            >
-                삭제
-            </button>
-            )}
-        </div>
+    <>
+      {cropImage && (
+        <ImageCropModal
+          image={cropImage}
+          onCancel={() => setCropImage(null)}
+          onConfirm={handleCropConfirm}
+        />
+      )}
+      <div className="flex flex-col gap-4 w-full max-w-xl mx-auto">
+          <div className="flex justify-between items-center h-8">
+              {label && <label className="font-semibold text-sm opacity-70">{label}</label>}
+              {preview && (
+              <button
+                  onClick={removeFile}
+                  className="btn btn-sm font-semibold bg-red-400 text-white self-end"
+              >
+                  삭제
+              </button>
+              )}
+          </div>
 
-        <div
-            className={`border-2 border-dashed rounded-lg p-4 min-h-[180px] cursor-pointer transition
-                flex justify-center
-                ${isDragging ? "border-blue-500 bg-blue-50" : "border-gray-300"}`}
-            onDragOver={handleDragOver}
-            onDragLeave={handleDragLeave}
-            onDrop={handleDrop}
-            onClick={() => imgInput.current.click()}
-        >
-            <input
-                ref={imgInput}
-                type="file"
-                accept="image/*"
-                className="hidden"
-                onChange={handleFileSelect}
-            />
+          <div
+              className={`border-2 border-dashed rounded-lg p-4 min-h-[180px] cursor-pointer transition
+                  flex justify-center
+                  ${isDragging ? "border-blue-500 bg-blue-50" : "border-gray-300"}`}
+              onDragOver={handleDragOver}
+              onDragLeave={handleDragLeave}
+              onDrop={handleDrop}
+              onClick={() => imgInput.current.click()}
+          >
+              <input
+                  ref={imgInput}
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={handleFileSelect}
+              />
 
-            {!preview ? (
-                <div className="flex items-center">
-                    <p className="text-gray-500 w-full text-center">
-                        클릭 또는 드래그하여<br/>이미지를 추가하세요
-                    </p>
-                </div>
-            ) : (
-                <img
-                    src={preview.thumbURL}
-                    loading="lazy"
-                    decoding="async"
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        imagePreview(preview.origin);
-                    }}
-                    className="w-full object-cover rounded-md border cursor-pointer"
-                    alt=""
-                />
-            )}
-        </div>
-    </div>
+              {!preview ? (
+                  <div className="flex items-center">
+                      <p className="text-gray-500 w-full text-center">
+                          클릭 또는 드래그하여<br/>이미지를 추가하세요
+                      </p>
+                  </div>
+              ) : (
+                  <img
+                      src={preview.thumbURL}
+                      loading="lazy"
+                      decoding="async"
+                      onClick={(e) => {
+                          e.stopPropagation();
+                          imagePreview(preview.origin);
+                      }}
+                      className="w-full object-cover rounded-md border cursor-pointer"
+                      alt=""
+                  />
+              )}
+          </div>
+      </div>
+    </>
   );
 }

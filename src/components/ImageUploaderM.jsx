@@ -1,7 +1,10 @@
 import React, { use, useEffect, useRef, useState } from "react";
 import imageCompression from "browser-image-compression";
 
-export default function ImageUploaderM({ label, onChangeFiles, initImages = [], limit = 0, onDeleteImage, type }) {
+import ImageCropModal from "./ImageCropModal";
+import { getCroppedImage } from "./cropImage.js";
+
+export default function ImageUploaderM({ label, onChangeFiles, initImages = [], limit = 0, onDeleteImage, type, crop = false }) {
   const [files, setFiles] = useState([]);
   const [previews, setPreviews] = useState([]);
   const [isDragging, setIsDragging] = useState(false);
@@ -11,6 +14,9 @@ export default function ImageUploaderM({ label, onChangeFiles, initImages = [], 
   const [uploadText, setUploadText] = useState("이미지 등록 중...");
 
   const [prevImages, setPrevImages] = useState([]);
+
+  const [cropQueue, setCropQueue] = useState([]);   // crop 대기 이미지들
+  const [currentCrop, setCurrentCrop] = useState(null);
 
   const imgInput = useRef(null);
 
@@ -83,7 +89,19 @@ export default function ImageUploaderM({ label, onChangeFiles, initImages = [], 
       alert(`이미지는 최대 ${limit}장까지 업로드 가능합니다.`);
       return;
     }
-    if (selected.length) updateFiles(selected);
+    if (selected.length) {
+      if (crop) {
+        const queue = selected.map(file => ({
+          file,
+          url: URL.createObjectURL(file)
+        }));
+  
+        setCropQueue(queue);
+        setCurrentCrop(queue[0]);
+      } else {
+        updateFiles(selected);
+      }
+    }
   };
 
   const handleDragOver = (e) => {
@@ -106,7 +124,38 @@ export default function ImageUploaderM({ label, onChangeFiles, initImages = [], 
       return;
     }
 
-    if (dropped.length) updateFiles(dropped);
+    if (dropped.length) {
+      if (crop) {
+        const queue = dropped.map(file => ({
+          file,
+          url: URL.createObjectURL(file)
+        }));
+  
+        setCropQueue(queue);
+        setCurrentCrop(queue[0]);
+      } else {
+        updateFiles(dropped);
+      }
+    }
+  };
+
+  const handleCropConfirm = async (croppedAreaPixels) => {
+    const croppedFile = await getCroppedImage(
+      currentCrop.url,
+      croppedAreaPixels
+    );
+
+    const nextQueue = cropQueue.slice(1);
+
+    setCropQueue(nextQueue);
+
+    if (nextQueue.length > 0) {
+      setCurrentCrop(nextQueue[0]);
+    } else {
+      // 🔥 전부 crop 끝
+      updateFiles([croppedFile]);
+      setCurrentCrop(null);
+    }
   };
 
   const removeFile = (index) => {
@@ -161,6 +210,16 @@ export default function ImageUploaderM({ label, onChangeFiles, initImages = [], 
 
   return (
     <>
+      {currentCrop && (
+        <ImageCropModal
+          image={currentCrop.url}
+          onCancel={() => {
+            setCropQueue([]);
+            setCurrentCrop(null);
+          }}
+          onConfirm={handleCropConfirm}
+        />
+      )}
       {imageUploading && (
           <div className="fixed inset-0 flex flex-col items-center justify-center bg-black/50 z-50">
               <div className="bg-white p-6 rounded-lg shadow-lg w-80 text-center">

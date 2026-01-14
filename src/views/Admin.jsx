@@ -180,6 +180,7 @@ export default function Admin() {
     }
 
     const imageUpload = async (files, type) => {
+        console.log(files, type);
         if (!files) return;
 
         if (!Array.isArray(files)) {
@@ -245,6 +246,7 @@ export default function Admin() {
                             initImages={data?.intro || []}
                             onDeleteImage={deleteImg}
                             limit={2}
+                            crop={true}
                         />
                         <ImageUploaderS
                             label="아웃트로 이미지"
@@ -261,6 +263,7 @@ export default function Admin() {
                             onChangeFile={imageUpload}
                             initImage={data?.groom_img?.at(0) || null}
                             onDeleteImage={deleteImg}
+                            crop={true}
                         />
                         <ImageUploaderS
                             label="신부 프로필 이미지"
@@ -268,6 +271,7 @@ export default function Admin() {
                             onChangeFile={imageUpload}
                             initImage={data?.bride_img?.at(0) || null}
                             onDeleteImage={deleteImg}
+                            crop={true}
                         />
                     </div>
                     <div className="flex gap-3">
