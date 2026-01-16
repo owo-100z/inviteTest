@@ -1,5 +1,13 @@
 @import "tailwindcss";
 
+/* 필기체 */
+@font-face {
+    font-family: 'Continuous';
+    src: url('/fonts/continuous.ttf') format('truetype');
+    font-weight: normal;
+    font-display: swap;
+}
+
 /* 정갈한 글씨체 */
 @font-face {
     font-family: 'Paperozi';
@@ -66,6 +74,10 @@ body {
 
 .font-saeum {
     font-family: 'GangwonEducationSaeum';
+}
+
+.font-continuous {
+    font-family: 'Continuous';
 }
 
 .font-paperozi {
