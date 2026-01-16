@@ -1,14 +1,14 @@
 import ImgCanvas from "@/components/ImgCanvas";
 import { useEffect, useState } from "react";
 
-export default function Cover({ wedding_data, imgUrl }) {
+export default function Cover({ wedding_data, imgUrl, isTextShow }) {
     const [showText, setShowText] = useState(false);
 
     useEffect(() => {
-        if (!utils.isEmpty(wedding_data)) {
+        if (!utils.isEmpty(wedding_data) && isTextShow) {
             setShowText(true);
         }
-    }, [wedding_data]);
+    }, [wedding_data, isTextShow]);
 
     return (
         <div id="cover" className="w-full relative lg:rounded-t-3xl overflow-hidden">

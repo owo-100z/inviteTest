@@ -5,7 +5,7 @@ const str = ["We are getting","married!"];
 // const str = ["Welcome to","our wedding"];
 // const str = ["Celebrate","with us"];
 
-export default function Intro() {
+export default function Intro({ onClose }) {
     const [fadeOut, setFadeOut] = useState(false);
     useEffect(() => {
         document.body.style.position = "fixed";
@@ -13,8 +13,9 @@ export default function Intro() {
         setTimeout(() => {
             setFadeOut(true);
             document.body.style.position = "";
+            onClose && onClose();
         }, str.length * 1500 + 1000);
-    }, []);
+    }, [onClose]);
 
     return (
         <div id="intro-area" className={`absolute inset-0 z-50 flex flex-col items-center justify-center bg-base-100/85 h-dvh md:h-[95vh] transition-behavior duration-1000 ease-in-out ${fadeOut ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
