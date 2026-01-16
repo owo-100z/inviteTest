@@ -39,9 +39,7 @@ export default function Test() {
             <Header wedding_data={data} />
             <Floating wedding_data={data} />
             <Intro />
-            <Cover1 wedding_data={data} imgUrl="https://hellomybrand.com/wed/images/sample/cover/seoul-1.jpg,https://hellomybrand.com/wed/images/sample/cover/seoul-2.jpg"/>
-            {/* <Cover2 wedding_data={data} imgUrl="https://hellomybrand.com/wed/images/sample/cover/wm/martinique.jpg"/>
-            <Cover2 wedding_data={data} imgUrl="https://hellomybrand.com/wed/images/sample/cover/wm/newyork.jpg"/> */}
+            <Cover2 wedding_data={data} imgUrl="/images/cover/cover.jpg"/>
             <Box id="greetings" idx={0} title="Greetings" className="font-saeum text-xl"> <Greetings wedding_data={data} /> </Box>
             <Box id="introduction" idx={1}> <About wedding_data={data} /> </Box>
             <Box id="calendar" idx={2}> <Calendar wedding_data={data} /> </Box>

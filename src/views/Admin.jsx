@@ -239,7 +239,7 @@ export default function Admin() {
                         <DateTimePicker initialValue={data?.start_date} onChange={(res) => {setData({...data, start_date: res?.format('YYYY-MM-DD')})}} showTime={false} />
                     </div>
                     <div className="flex gap-3">
-                        <ImageUploaderM
+                        {/* <ImageUploaderM
                             label="인트로 이미지"
                             type="intro"
                             onChangeFiles={imageUpload}
@@ -247,7 +247,7 @@ export default function Admin() {
                             onDeleteImage={deleteImg}
                             limit={2}
                             crop={true}
-                        />
+                        /> */}
                         <ImageUploaderS
                             label="아웃트로 이미지"
                             type="outro"
