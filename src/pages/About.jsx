@@ -91,8 +91,8 @@ export default function About({ wedding_data }) {
 
     return (
         <>
-            <Container title="저희 커플을 소개합니다" description={introduction} text_css="font-saeum text-xl px-8 space-y-1" />
-            <div className="flex justify-center">
+            {/* <Container title="저희 커플을 소개합니다" description={introduction} text_css="font-saeum text-xl px-8 space-y-1" /> */}
+            <div className="flex justify-center mt-5">
                 <p className="tracking-wider px-4 text-xl font-ongle">함께한 지 <strong className="bride-color">{loving}</strong>일💕</p>
             </div>
             <div className="my-4 w-full px-4 flex justify-center items-stretch gap-2">
