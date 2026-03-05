@@ -33,7 +33,7 @@ export default function Location({ wedding_data }) {
             </div>
             {sketch_map && (
                 <div className="pt-10">
-                    <span className="underline cursor-pointer" onClick={sketch_map_open}>약도 보기</span>
+                    <span className="underline cursor-pointer text-xl text-blue-500" onClick={sketch_map_open}>약도 보기 클릭</span>
                 </div>
             )}
         </div>
