@@ -70,7 +70,7 @@ export default function Account({ wedding_data }) {
                             </div>
                             <button key={`groom-account-btn-${index}`}
                                     className="btn btn-outline btn-sm w-24 groom-color mr-1"
-                                    onClick={() => {navigator.clipboard.writeText(account.number?.replace(/[^0-9]/g, '')).then(()=>{
+                                    onClick={() => {navigator.clipboard.writeText(`${account.bank} ${account.number}`).then(()=>{
                                         comm.toast('계좌번호가 복사되었습니다.');
                                     }).catch((err)=>{comm.error('오류발생: ', err)})}}>
                                 복사
@@ -88,7 +88,7 @@ export default function Account({ wedding_data }) {
                             </div>
                             <button key={`bride-account-btn-${index}`}
                                     className="btn btn-outline btn-sm w-24 bride-color mr-1"
-                                    onClick={() => {navigator.clipboard.writeText(account.number?.replace(/[^0-9]/g, '')).then(()=>{
+                                    onClick={() => {navigator.clipboard.writeText(`${account.bank} ${account.number}`).then(()=>{
                                         comm.toast('계좌번호가 복사되었습니다.');
                                     }).catch((err)=>{comm.error('오류발생: ', err)})}}>
                                 복사
