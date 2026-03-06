@@ -157,9 +157,21 @@ export default function IntroWithPetals({ imgUrl, isEffect = true, type = 'frees
             img.onload = resolve;
           })
       )
-    ).then(() => animate());
+    ).then(() => {
+      canvas.width = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+      animate()
+    });
 
     const handleResize = () => {
+      const scaleX = canvas.offsetWidth / canvas.width;
+      const scaleY = canvas.offsetHeight / canvas.height;
+      
+      petals.forEach(p => {
+        p.x *= scaleX;
+        p.y *= scaleY;
+      });
+
       canvas.width = canvas.offsetWidth;
       canvas.height = canvas.offsetHeight;
     };
