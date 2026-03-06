@@ -40,15 +40,15 @@ export default function Test() {
             <Floating wedding_data={data} />
             {/* <Intro /> */}
             <Cover2 wedding_data={data} imgUrl="/images/cover/cover.jpg" isTextShow={true} />
-            <Box id="greetings" idx={0} title="Greetings" className="font-saeum text-xl"> <Greetings wedding_data={data} /> </Box>
+            <Box id="greetings" idx={0} title="인사말" className="font-maruburi"> <Greetings wedding_data={data} /> </Box>
             <Box id="introduction" idx={1}> <About wedding_data={data} /> </Box>
             <Box id="calendar" idx={2}> <Calendar wedding_data={data} /> </Box>
-            <Box id="location" idx={0} title="Location"> <Location wedding_data={data} /> </Box>
+            <Box id="location" idx={0} title="장소"> <Location wedding_data={data} /> </Box>
             <Box idx={0}> <LocationMap wedding_data={data} /> </Box>
             <Box idx={0}> <Directions wedding_data={data} /> </Box>
             <Box id="notice" idx={0}> <Notice wedding_data={data} /> </Box>
-            <Box id="gallery" idx={1} title="Gallery"> <Gallery wedding_data={data} /> </Box>
-            <Box id="message" idx={2} title="Message"> <Message /> </Box>
+            <Box id="gallery" idx={1} title="사진첩"> <Gallery wedding_data={data} /> </Box>
+            <Box id="message" idx={2} title="방명록"> <Message /> </Box>
             <Box id="account" idx={0}> <Account wedding_data={data} /> </Box>
             <Ending wedding_data={data} imgUrl="https://hellomybrand.com/wed/images/sample/cover/wm/martinique.jpg"/>
         </Layout>

@@ -17,7 +17,7 @@ export default function Greetings({wedding_data}) {
                 ))}
             </div>
             <div className=" pt-10 text-center pb-8">
-                <span className="text-2xl">신랑 {wedding_data?.groom} · 신부 {wedding_data?.bride}</span>
+                <span>신랑 {wedding_data?.groom} · 신부 {wedding_data?.bride}</span>
             </div>
         </>
     )

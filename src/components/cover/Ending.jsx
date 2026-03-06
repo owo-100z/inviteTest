@@ -9,7 +9,7 @@ export default function Ending({ wedding_data, imgUrl }) {
                 <p>Thank You</p>
             </h5>
             <ImgCanvas imgUrl={ending_img} type="tuliip" />
-            <div className="text-base w-full absolute bottom-20 z-10 text-center px-8 space-y-4 leading-7 font-saeum text-xl">
+            <div className="text-base w-full absolute bottom-20 z-10 text-center px-8 space-y-4 leading-7 font-maruburi">
                 {ending && ending.map((e, i) => (
                     e.length > 0 ? (
                         <p key={`ending-${i}`} className="text-white">{e}</p>

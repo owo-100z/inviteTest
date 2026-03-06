@@ -29,7 +29,7 @@ export default function Notice({ wedding_data }) {
             <div className="tabs tabs-boxed mb-4 flex justify-around px-5">
                 {titles && titles.map((v, i) => (
                     <button key={i} className={`tab rounded-xl ${activeTab === i ? "tab-active bg-red-500/5" : ""}`} onClick={() => tabClick(i)} >
-                        <span className="font-ongle text-xl">{v}</span>
+                        <span>{v}</span>
                     </button>
                 ))}
             </div>

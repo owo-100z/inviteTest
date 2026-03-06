@@ -17,6 +17,11 @@ export default function Calendar({ wedding_data }) {
         <div className="leading-5 px-4">
             <Container title="예식 안내" description={description} text_css="px-4" />
             <div className="w-full px-5">
+                <div className="flex justify-center items-center mb-6">
+                    <h2 className="text-2xl font-bold">
+                        {weddingDate.format('M')}월
+                    </h2>
+                </div>
                 <div data-orientation="horizontal" role="none" className="shrink-0 h-[1px] w-full my-8 bg-black opacity-10" />
                 <div className="grid grid-cols-7 font-normal text-center gap-y-6">
                     <div className="text-red-400">일</div>

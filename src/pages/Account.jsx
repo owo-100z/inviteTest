@@ -58,7 +58,7 @@ export default function Account({ wedding_data }) {
 
     return (
         <div className="px-2 text-center mb-14">
-            <Container title="마음 전하실 곳" description={notice} text_css="font-saeum text-2xl px-12 space-y-1" />
+            <Container title="마음 전하실 곳" description={notice} text_css="font-maruburi px-12 space-y-1" />
             <div className='px-2 space-y-4'>
                 <Collapse title="신랑측" color="groom-color opacity-80">
                     {groom_accounts?.map((account, index) => (

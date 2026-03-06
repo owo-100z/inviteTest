@@ -45,10 +45,10 @@ export default function Gallery({ wedding_data }) {
     return (
         <div className="px-2 text-center text-gray-400 mb-14">
             {images.length > 0 && (
-                <div className="text-3xl font-ongle justify-end flex mb-2 items-center gap-2">
-                    <MdArrowLeft className='text-3xl cursor-pointer' onClick={() => {handlePaginate('prev');}} />
+                <div className="text-2xl justify-end flex mb-2 items-center gap-2">
+                    <MdArrowLeft className='text-2xl cursor-pointer' onClick={() => {handlePaginate('prev');}} />
                     <span>( {imgIndex + 1} / {Math.ceil(images.length / 9)} )</span>
-                    <MdArrowRight className='text-3xl cursor-pointer' onClick={() => {handlePaginate('next');}} />
+                    <MdArrowRight className='text-2xl cursor-pointer' onClick={() => {handlePaginate('next');}} />
                 </div>
             )}
             <div className={`grid grid-cols-3 gap-1 duration-300 ease-initial ${fade ? 'opacity-0' : 'opacity-100'}`}>
@@ -72,7 +72,7 @@ export default function Gallery({ wedding_data }) {
                     ))
                 )}
             </div>
-            {images.length > 0 && <p className="tracking-wider px-4 text-xl font-ongle mb-6">사진을 클릭하시면 이미지가 확대됩니다</p>}
+            {images.length > 0 && <p className="tracking-wider px-4 pt-1 mb-6">사진을 클릭하시면 이미지가 확대됩니다</p>}
         </div>
     )
 }
