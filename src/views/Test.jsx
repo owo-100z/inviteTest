@@ -43,7 +43,7 @@ export default function Test() {
             <Box id="greetings" idx={0} title="인사말" className="font-maruburi"> <Greetings wedding_data={data} /> </Box>
             <Box id="introduction" idx={1}> <About wedding_data={data} /> </Box>
             <Box id="calendar" idx={2}> <Calendar wedding_data={data} /> </Box>
-            <Box id="location" idx={0} title="장소"> <Location wedding_data={data} /> </Box>
+            <Box id="location" idx={0} title="오시는곳"> <Location wedding_data={data} /> </Box>
             <Box idx={0}> <LocationMap wedding_data={data} /> </Box>
             <Box idx={0}> <Directions wedding_data={data} /> </Box>
             <Box id="notice" idx={0}> <Notice wedding_data={data} /> </Box>

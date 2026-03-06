@@ -6,9 +6,9 @@ const menuItems = [
   { name: "인사말", link: "#greetings", show: false },
   { name: "소개", link: "#introduction", show: false },
   { name: "달력", link: "#calendar", show: false },
-  { name: "오시는 길", link: "#location", show: false },
+  { name: "오시는곳", link: "#location", show: false },
   { name: "안내사항", link: "#notice", show: false },
-  { name: "갤러리", link: "#gallery", show: false },
+  { name: "사진첩", link: "#gallery", show: false },
   { name: "방명록", link: "#message", show: false },
   { name: "마음전하실 곳", link: "#account", show: false },
 ];
