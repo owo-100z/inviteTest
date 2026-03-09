@@ -25,7 +25,7 @@ export default function About({ wedding_data }) {
     const introduction = wedding_data?.introduction?.split('\n');
 
     const start_date = wedding_data?.start_date;
-    const loving = utils.getDayDiff(start_date, utils.getToday());
+    const loving = utils.getDayDiff(start_date, utils.getToday()) + 1;
 
     const parents_call = () => {
         pop_open(
