@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 
 export default function IntroWithPetals({ imgUrl, isEffect = true, type = 'freesia', rounded = false, className = "" }) {
   const canvasRef = useRef(null);
-  const containerRef = useRef(null); // 1. 컨테이너 참조 추가
+  const containerRef = useRef(null);
 
   useEffect(() => {
     if (!isEffect) return;
@@ -11,16 +11,15 @@ export default function IntroWithPetals({ imgUrl, isEffect = true, type = 'frees
     const ctx = canvas.getContext("2d");
     let animationFrameId;
 
-    // 2. 캔버스 크기를 설정하는 함수 분리
     const setCanvasSize = () => {
       const parent = canvas.parentElement;
-      if (parent) {
+      if (parent && parent.offsetWidth > 0 && parent.offsetHeight > 0) {
         canvas.width = parent.offsetWidth;
         canvas.height = parent.offsetHeight;
+        return true;
       }
+      return false;
     };
-
-    setCanvasSize(); // 초기 설정
 
     const petals = [];
     const petalImages = Array.from({ length: 4 }, (_, i) => `/images/flower/${type}.${i + 1}.PNG`);
@@ -33,10 +32,8 @@ export default function IntroWithPetals({ imgUrl, isEffect = true, type = 'frees
     class Petal {
       constructor() { this.reset(true); }
       reset(initial = false) {
-        // 3. 캔버스 크기가 0일 경우를 대비한 안전 장치
-        const w = canvas.width || window.innerWidth;
-        const h = canvas.height || window.innerHeight;
-        
+        const w = canvas.width;
+        const h = canvas.height;
         this.x = Math.random() * w;
         this.y = initial ? Math.random() * h : -20 - Math.random() * 100;
         this.size = 8 + Math.random() * 5;
@@ -74,31 +71,34 @@ export default function IntroWithPetals({ imgUrl, isEffect = true, type = 'frees
       animationFrameId = requestAnimationFrame(animate);
     }
 
-    // 4. 모든 이미지 로드 및 '이미지 태그'의 로드를 기다린 후 시작
     Promise.all(
-      petalImgs.map(img => new Promise(res => { 
-        if(img.complete) res(); else img.onload = res; 
+      petalImgs.map(img => new Promise(res => {
+        if (img.complete) res(); else img.onload = res;
       }))
     ).then(() => {
-      setCanvasSize(); // 애니메이션 직전에 크기 재계산
+      setCanvasSize(); // 이미지 로드 후 크기 계산
       for (let i = 0; i < 15; i++) petals.push(new Petal());
       animate();
     });
 
-    const handleResize = () => {
+    // ResizeObserver로 교체 - 스크롤 시 발동 안 함
+    const resizeObserver = new ResizeObserver(() => {
       setCanvasSize();
-      petals.forEach(p => p.reset(true)); // 리사이즈 시 위치 재설정 (꼬임 방지)
-    };
+      petals.forEach(p => p.reset(true));
+    });
 
-    window.addEventListener("resize", handleResize);
+    if (canvas.parentElement) {
+      resizeObserver.observe(canvas.parentElement);
+    }
+
     return () => {
-      window.removeEventListener("resize", handleResize);
+      resizeObserver.disconnect();
       cancelAnimationFrame(animationFrameId);
     };
-  }, [isEffect, type, imgUrl]); // imgUrl 추가: 배경 이미지 변경 시 대응
+  }, [isEffect, type, imgUrl]);
 
   return (
-    <div ref={containerRef} className="relative w-full h-full"> {/* 5. relative 컨테이너로 감쌈 */}
+    <div ref={containerRef} className="relative w-full h-full">
       <img
         src={imgUrl}
         alt="Background"
