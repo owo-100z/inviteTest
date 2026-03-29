@@ -14,7 +14,7 @@ export default function LocationMap({ wedding_data }) {
         const options = {
             center: position,
             level: 3,
-            draggable: false,
+            draggable: true,
             scrollwheel: false,
             disableDoubleClick: false,
             disableDoubleClickZoom: false,
@@ -22,10 +22,10 @@ export default function LocationMap({ wedding_data }) {
 
         const map = new window.kakao.maps.Map(mapContainer.current, options);
 
-        const markerImageUrl = '/images/marker_p.png';
-        const markerImageSize = new kakao.maps.Size(70, 70); // 마커 이미지의 크기
+        const markerImageUrl = '/images/wedding_marker.svg';
+        const markerImageSize = new kakao.maps.Size(120, 120); // 마커 이미지의 크기
         const markerImageOptions = {
-            offset : new kakao.maps.Point(35, 55)// 마커 좌표에 일치시킬 이미지 안의 좌표
+            offset : new kakao.maps.Point(55, 75)// 마커 좌표에 일치시킬 이미지 안의 좌표
         };
 
 		// 마커 이미지를 생성한다
